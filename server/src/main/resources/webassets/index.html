@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BASE</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="admin/user-admin.css">
+</head>
+<body>
+
+<nav id="main-nav" class="navbar navbar-expand navbar-dark bg-primary">
+    <span class="navbar-brand d-sm-block d-none">BASE</span>
+    <ul class="navbar-nav mr-auto">
+
+        <!-- Add new links here, wherever you want them -->
+
+        <li class="nav-item">
+            <a class="nav-link" href="#/foo">Foo</a>
+        </li>
+        <li class="nav-item admin-only">
+            <a class="nav-link" href="#/admin">User admin</a>
+        </li>
+        <li class="nav-item admin-only">
+            <a class="nav-link" target="_blank" href="specs.html">Unit tests</a>
+        </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a id="logout" class="nav-link">Sign out as</a>
+        </li>
+        <li class="nav-item">
+            <span class="navbar-text" id="username"></span>
+        </li>
+    </ul>
+</nav>
+
+<section id="main-tab" class="mt-3 container"></section>
+
+<script src="rest.js"></script>
+
+<script src="foo/foo.js"></script>
+<script src="admin/user-admin.js"></script>
+<!-- Add scripts of more tabs here -->
+
+<script src="index.js"></script>
+<script type="application/javascript">
+    base.mainController.initOnLoad();
+
+</script>
+
+</body>
+</html>
