@@ -1,8 +1,31 @@
 package Algorithm;
 
-public class Ranker {
-	public double distance(double lat1, double lat2, double lon1, double lon2) {
+import java.util.List;
 
+import se.lth.base.server.data.*;
+
+public class Ranker {
+	private List<Ride> listOfRides;
+	
+	public Ranker(List<Ride> listOfRides) {
+		this.listOfRides = listOfRides;
+	}
+	
+	public List<Ride> rankByTime() {
+		
+	}
+	
+	public List<Ride> rankByDistance(){
+		
+	}
+	
+	private double distance(Location departureLocation, Location arrivalLocation) {
+		
+		double lat1 = departureLocation.getLatitude();
+		double lon1 = departureLocation.getLongitude();
+		double lat2 = arrivalLocation.getLatitude();
+		double lon2 = arrivalLocation.getLongitude();
+		
 		final int R = 6371; // Radius of the earth
 
 		double latDistance = Math.toRadians(lat2 - lat1);
