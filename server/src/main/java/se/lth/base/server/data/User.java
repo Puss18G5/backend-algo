@@ -4,7 +4,7 @@ import java.security.Principal;
 
 public class User implements Principal {
 
-    public static User NONE = new User(0, Role.NONE, "-");
+    public static User NONE = new User(0, "-", Role.NONE, "-");
 
     private final int id;
     private final Role role;
