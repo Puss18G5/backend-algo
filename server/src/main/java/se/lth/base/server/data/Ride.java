@@ -36,6 +36,22 @@ public class Ride {
 		return allTravelers.remove(u);
 	}
 	
+	public Location getArrivalLocation() {
+		return arrivalLocation;
+	}
+	
+	public Location getDepartureLocation() {
+		return departureLocation;
+	}
+	
+	public Date getArrivalTime() {
+		return arrivalTime;
+	}
+	
+	public Date getDepartureTime() {
+		return departureTime;
+	}
+	
 	public int getID() {
 		return id;
 	}
