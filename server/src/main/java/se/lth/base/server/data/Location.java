@@ -1,19 +1,25 @@
 package se.lth.base.server.data;
 
 public class Location {
-	private final float[] coordinate;
+	private double lat;
+	private double lon;
 	private String name;
 	
-	public Location(String name, float[] coordinate) {
+	public Location(String name, double latitude, double longitude) {
 		this.name = name;
-		this.coordinate = coordinate;
+		lat = latitude;
+		lon = longitude;
 	}
 	
-	public String returnLocation() {
+	public String getLocation() {
 		return name;
 	}
 	
-	public float[] returnCoordinate() {
-		return coordinate;
+	public double getLongitude() {
+		return lon;
+	}
+	
+	public double getLatitude() {
+		return lat;
 	}
 }
