@@ -11,10 +11,10 @@ public class Ride {
 	private int carSize;
 	private int id;
 	
-	public Ride(int id, Location aL, Location dL, Date aD, Date dD, int size) {
+	public Ride(int id, Location departureLocation, Location arrivalLocation, Date aD, Date dD, int size) {
 		this.id = id;
-		arrivalLocation = aL;
-		departureLocation = dL;
+		this.arrivalLocation = arrivalLocation;
+		this.departureLocation = departureLocation;
 		arrivalTime = aD;
 		departureTime = dD;
 		carSize = size;
