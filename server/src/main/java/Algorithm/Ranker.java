@@ -10,7 +10,8 @@ public class Ranker {
 	public Ranker(List<Ride> listOfRides) {
 		this.listOfRides = listOfRides;
 	}
-	
+
+
 	public List<Ride> rankByTime() {
 		
 	}

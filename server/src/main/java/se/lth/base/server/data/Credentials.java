@@ -22,12 +22,14 @@ public class Credentials {
     private final String username;
     @Expose(serialize = false)
     private final String password;
+    private final String email;
     private final Role role;
 
-    public Credentials(String username, String password, Role role) {
+    public Credentials(String username, String password, String email, Role role) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.email = email;
     }
 
     public String getUsername() {
@@ -36,6 +38,10 @@ public class Credentials {
 
     public Role getRole() {
         return role;
+    }
+    
+    public String getEmail() {
+    	return email;
     }
 
     // Password hashing function parameters.
@@ -80,9 +86,9 @@ public class Credentials {
         long s1 = generateSalt();
         long s2 = generateSalt();
         System.out.println(s1);
-        System.out.println(new Credentials("Admin", "password", Role.ADMIN).generatePasswordHash(s1));
+        System.out.println(new Credentials("Admin", "password", "adminmail", Role.ADMIN).generatePasswordHash(s1));
 
         System.out.println(s2);
-        System.out.println(new Credentials("Test", "password", Role.USER).generatePasswordHash(s2));
+        System.out.println(new Credentials("Test", "password", "testmail", Role.USER).generatePasswordHash(s2));
     }
 }
