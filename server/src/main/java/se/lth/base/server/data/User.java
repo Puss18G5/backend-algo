@@ -4,14 +4,14 @@ import java.security.Principal;
 
 public class User implements Principal {
 
-    public static User NONE = new User(0, "-", Role.NONE, "-");
+    public static User NONE = new User(0, Role.NONE,  "-", "-");
 
     private final int id;
     private final Role role;
     private final String username;
     private final String email;
 
-    public User(int id, String email, Role role, String username) {
+    public User(int id, Role role, String username, String email) {
         this.id = id;
         this.role = role;
         this.username = username;

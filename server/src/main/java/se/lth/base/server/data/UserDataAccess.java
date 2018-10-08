@@ -37,7 +37,8 @@ public class UserDataAccess extends DataAccess<User> {
         public User map(ResultSet resultSet) throws SQLException {
             return new User(resultSet.getInt("user_id"),
                     Role.valueOf(resultSet.getString("role")),
-                    resultSet.getString("username"));
+                    resultSet.getString("username"),
+                    resultSet.getString("email"));
         }
     }
 
@@ -56,10 +57,11 @@ public class UserDataAccess extends DataAccess<User> {
         int userId = insert("INSERT INTO users (role_id, username, password_hash, salt) VALUES ((" +
                         "SELECT role_id FROM user_role WHERE user_role.role=?),?,?,?)",
                 credentials.getRole().name(), credentials.getUsername(), credentials.generatePasswordHash(salt), salt);
-        return new User(userId, credentials.getRole(), credentials.getUsername());
+        return new User(userId, credentials.getRole(), credentials.getUsername(), credentials.getEmail());
     }
 
     public User updateUser(int userId, Credentials credentials) {
+
         if (credentials.hasPassword()) {
             long salt = Credentials.generateSalt();
             execute("UPDATE users SET username = ?, password_hash = ?, salt = ?, role_id = (" +
@@ -77,7 +79,7 @@ public class UserDataAccess extends DataAccess<User> {
     }
 
     public User getUser(int userId) {
-        return queryFirst("SELECT user_id, role, username FROM users, user_role " +
+        return queryFirst("SELECT user_id, role, username, email FROM users, user_role " +
                 "WHERE users.user_id = ? AND users.role_id = user_role.role_id", userId);
     }
 
@@ -89,7 +91,7 @@ public class UserDataAccess extends DataAccess<User> {
      * @return all users in the system.
      */
     public List<User> getUsers() {
-        return query("SELECT user_id, username, role FROM users, user_role " +
+        return query("SELECT user_id, username, role, email FROM users, user_role " +
                 "WHERE users.role_id = user_role.role_id");
     }
     
@@ -102,7 +104,7 @@ public class UserDataAccess extends DataAccess<User> {
      * @throws DataAccessException if the session is not found.
      */
     public Session getSession(UUID sessionId) {
-        User user = queryFirst("SELECT users.user_id, username, role FROM users, user_role, session " +
+        User user = queryFirst("SELECT users.user_id, username, role, email FROM users, user_role, session " +
                 "WHERE user_role.role_id = users.role_id " +
                 "    AND session.user_id = users.user_id " +
                 "    AND session.session_uuid = ?", sessionId);
@@ -134,7 +136,7 @@ public class UserDataAccess extends DataAccess<User> {
         long salt = new DataAccess<>(getDriverUrl(), (rs) -> rs.getLong(1))
                 .queryFirst("SELECT salt FROM users WHERE username = ?", credentials.getUsername());
         UUID hash = credentials.generatePasswordHash(salt);
-        User user = queryFirst("SELECT user_id, username, role FROM users, user_role " +
+        User user = queryFirst("SELECT user_id, username, email, role FROM users, user_role " +
                 "WHERE user_role.role_id = users.role_id " +
                 "    AND username = ? " +
                 "    AND password_hash = ?", credentials.getUsername(), hash);
