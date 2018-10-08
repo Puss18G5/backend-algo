@@ -162,7 +162,7 @@ public class UserResourceTest extends BaseResourceTest {
     @Test
     public void testAddUser() {
         login(ADMIN_CREDENTIALS);
-        Credentials newCredentials = new Credentials("pelle", "passphrase", Role.USER);
+        Credentials newCredentials = new Credentials("pelle", "passphrase", "testmail", Role.USER);
         User newUser = target("user")
                 .request()
                 .post(Entity.json(newCredentials), User.class);
@@ -231,7 +231,7 @@ public class UserResourceTest extends BaseResourceTest {
     @Test(expected = WebApplicationException.class)
     public void dontDemoteYourself() {
         login(ADMIN_CREDENTIALS);
-        Credentials update = new Credentials("admin", "password", Role.USER);
+        Credentials update = new Credentials("admin", "password", "testmail", Role.USER);
         target("user")
                 .path(Integer.toString(ADMIN.getId()))
                 .request()
@@ -241,7 +241,7 @@ public class UserResourceTest extends BaseResourceTest {
     @Test
     public void updateUser() {
         login(ADMIN_CREDENTIALS);
-        Credentials newTest = new Credentials("test2", null, Role.ADMIN);
+        Credentials newTest = new Credentials("test2", null, "testmail", Role.ADMIN);
         User user = target("user")
                 .path(Integer.toString(TEST.getId()))
                 .request()
