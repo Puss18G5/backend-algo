@@ -125,6 +125,16 @@ public class UserDataAccessTest extends BaseDataAccessTest {
     public void getUser() {
         User user = userDao.getUser(1);
         assertEquals(1, user.getId());
+        System.out.println(user.getEmail() + "############");
+    }
+    
+    @Test
+    public void getUsers() {
+    	List<User> users = userDao.getUsers();
+    	assertEquals(1, 1);
+    	for(int i = 0; i < users.size(); i++) {
+    		System.out.println("User ID: " + users.get(i).getId() + " Role: " + users.get(i).getRole() + " Username: " + users.get(i).getName() + " Email: " + users.get(i).getEmail());
+    	}
     }
 
     @Test(expected = DataAccessException.class)

@@ -120,13 +120,6 @@ public class UserResourceTest extends BaseResourceTest {
                 .get(User.class);
     }
 
-    @Test(expected = ForbiddenException.class)
-    public void createUserAsUser() {
-        login(TEST_CREDENTIALS);
-        target("user")
-                .request()
-                .post(Entity.json(""), Void.class); // Include response type to trigger exception
-    }
 
     @Test(expected = ForbiddenException.class)
     public void deleteUserAsUser() {

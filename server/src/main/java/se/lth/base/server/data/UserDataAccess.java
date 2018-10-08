@@ -54,35 +54,34 @@ public class UserDataAccess extends DataAccess<User> {
      */
     public User addUser(Credentials credentials) {
         long salt = Credentials.generateSalt();
-        int userId = insert("INSERT INTO users (role_id, username, password_hash, salt) VALUES ((" +
-                        "SELECT role_id FROM user_role WHERE user_role.role=?),?,?,?)",
-                credentials.getRole().name(), credentials.getUsername(), credentials.generatePasswordHash(salt), salt);
+        int userId = insert("INSERT INTO users (role_id, username, email, password_hash, salt, failed_logins) VALUES ((" +
+                        "SELECT role_id FROM user_role WHERE user_role.role=?),?,?,?,?,?)",
+                credentials.getRole().name(), credentials.getUsername(), credentials.getEmail(), credentials.generatePasswordHash(salt), salt, 0);
         return new User(userId, credentials.getRole(), credentials.getUsername(), credentials.getEmail());
     }
 
     public User updateUser(int userId, Credentials credentials) {
-
         if (credentials.hasPassword()) {
             long salt = Credentials.generateSalt();
-            execute("UPDATE users SET username = ?, password_hash = ?, salt = ?, role_id = (" +
+            execute("UPDATE users SET username = ?, email = ?, password_hash = ?, salt = ?, role_id = (" +
                             "    SELECT user_role.role_id FROM user_role WHERE user_role.role = ?) " +
                             "WHERE user_id = ?",
-                    credentials.getUsername(), credentials.generatePasswordHash(salt), salt,
+                    credentials.getUsername(), credentials.getEmail(), credentials.generatePasswordHash(salt), salt,
                     credentials.getRole().name(), userId);
         } else {
-            execute("UPDATE users SET username = ?, role_id = (" +
+            execute("UPDATE users SET username = ?, email = ?, role_id = (" +
                             "    SELECT user_role.role_id FROM user_role WHERE user_role.role = ?) " +
                             "WHERE user_id = ?",
-                    credentials.getUsername(), credentials.getRole().name(), userId);
+                    credentials.getUsername(), credentials.getEmail(), credentials.getRole().name(), userId);
         }
         return getUser(userId);
     }
 
     public User getUser(int userId) {
-        return queryFirst("SELECT user_id, role, username, email FROM users, user_role " +
+        return queryFirst("SELECT user_id, role, username, email, failed_logins FROM users, user_role " +
                 "WHERE users.user_id = ? AND users.role_id = user_role.role_id", userId);
     }
-
+    
     public boolean deleteUser(int userId) {
         return execute("DELETE FROM users WHERE user_id = ?", userId) > 0;
     }
