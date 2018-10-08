@@ -41,7 +41,7 @@ public class CreateSchema {
 
     public boolean createSchemaIfNotExists() {
         DataAccess<Long> counter = new DataAccess<>(driverUrl, (rs) -> rs.getLong(1));
-        boolean tableExists = counter.queryFirst("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'USER'") > 0L;
+        boolean tableExists = counter.queryFirst("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'USERS'") > 0L;
         if (!tableExists) {
             createSchema();
             return true;

@@ -84,7 +84,7 @@ public class UserResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @RolesAllowed(Role.Names.ADMIN)
+    @PermitAll
     public User createUser(Credentials credentials) {
         if (!credentials.hasPassword() || !credentials.validPassword()) {
             throw new WebApplicationException("Password too short", Response.Status.BAD_REQUEST);
@@ -97,6 +97,13 @@ public class UserResource {
     @RolesAllowed(Role.Names.ADMIN)
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public List<User> getUsers() {
+    	/**
+    	 * Used to print out current users
+    	List<User> users = userDao.getUsers();
+    	for(int i = 0; i < users.size(); i++) {
+    		System.out.println("User ID: " + users.get(i).getId() + " Role: " + users.get(i).getRole() + " Username: " + users.get(i).getName() + " Email: " + users.get(i).getEmail());
+    	}
+    	*/
         return userDao.getUsers();
     }
 

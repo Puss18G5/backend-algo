@@ -55,7 +55,7 @@ public class FooDataAccess extends DataAccess<Foo> {
     public List<Foo> getAllFoo() {
         return query("SELECT * FROM foo");
     }
-
+    
     /**
      * Get all foo payload created by a user.
      *

@@ -16,7 +16,7 @@ CREATE TABLE user_role(role_id TINYINT,
 CREATE TABLE users(user_id INT AUTO_INCREMENT NOT NULL,
                    role_id TINYINT,
                    username VARCHAR_IGNORECASE NOT NULL UNIQUE, -- username should be unique
-                   email VARCHAR_IGNORECASE UNIQUE,
+                   email VARCHAR, -- should be NOT NULL, change later
                    salt BIGINT NOT NULL,
                    password_hash UUID NOT NULL,
                    failed_logins INT, -- counter for failed logins
