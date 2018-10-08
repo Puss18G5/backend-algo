@@ -1,5 +1,7 @@
 package se.lth.base.server.data;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Ride {
@@ -18,6 +20,7 @@ public class Ride {
 		arrivalTime = aD;
 		departureTime = dD;
 		carSize = size;
+		allTravelers = new ArrayList<User>();
 	}
 	
 	public int getCarSize() {

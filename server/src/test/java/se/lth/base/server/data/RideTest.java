@@ -7,6 +7,8 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Date;
+
 /**
  * 
  * @author Isabella Gagner
@@ -16,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 public class RideTest {
 
 	private Ride ride = new Ride(1, new Location("Stockholm", 59.3293, 18.0686), new Location("Malmö", 55.6050, 13.0038),
-			new Date(), new Date(), 3);
+			new Date(2018,10,8,9,00), new Date(2018,10,8,16,00), 3);
 	
 	@Test
 	public void getArrivalLocation() {
@@ -40,28 +42,32 @@ public class RideTest {
 	
 	@Test
 	public void addTraveler() {
-		User u = new User(1,"email",Role.USER, "name");
+		User u = new User(1,Role.USER,"email", "name");
 		assertTrue(ride.addTraveler(u));
 		assertEquals(ride.getTravelerList().size(),1);
 	}
 	
 	@Test
 	public void getTravelerList() {
-		User u = new User(1,"email",Role.USER, "name");
+		User u = new User(1,Role.USER,"email", "name");
 		ride.addTraveler(u);
 		assertNotNull(ride.getTravelerList());
 	}
 	
 	@Test
 	public void addRemoveTraveler() {
-		User u = new User(1,"email",Role.USER, "name");
+		User u = new User(1,Role.USER,"email", "name");
 		assertTrue(ride.addTraveler(u));
 		assertTrue(ride.removeTraveler(u));
 		assertEquals(ride.getTravelerList().size(),0);
 	}
-	
-	//TODO
-	//add tests regarding date
-	
+
+	@Test
+	public void tryGetTime() {
+		assertNotNull(ride.getArrivalTime());
+		assertNotNull(ride.getDepartureTime());
+		System.out.println(ride.getArrivalTime().toString());
+		System.out.println(ride.getDepartureTime().toString());
+	}
 	
 }
