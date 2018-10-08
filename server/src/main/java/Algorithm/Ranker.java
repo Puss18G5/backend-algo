@@ -1,3 +1,4 @@
+
 package Algorithm;
 
 import java.util.List;
@@ -16,29 +17,8 @@ public class Ranker {
 		
 	}
 	
-	public List<Ride> rankByDistance(){
-		
+	public List<Ride> rankByDistance(Ride userRide){
+		DistanceRanker dr = new DistanceRanker(userRide, listOfRides);
+		return dr.rank();
 	}
-	
-	private double distance(Location departureLocation, Location arrivalLocation) {
-		
-		double lat1 = departureLocation.getLatitude();
-		double lon1 = departureLocation.getLongitude();
-		double lat2 = arrivalLocation.getLatitude();
-		double lon2 = arrivalLocation.getLongitude();
-		
-		final int R = 6371; // Radius of the earth
-
-		double latDistance = Math.toRadians(lat2 - lat1);
-		double lonDistance = Math.toRadians(lon2 - lon1);
-		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(Math.toRadians(lat1))
-				* Math.cos(Math.toRadians(lat2)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		double distance = R * c * 1000; // convert to meters
-
-		distance = Math.pow(distance, 2);
-
-		return Math.sqrt(distance);
-	}
-
 }
