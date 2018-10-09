@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>BASE</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="login.css">
@@ -18,11 +19,41 @@
         </label>
     </div>
     <button id="login" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <h4 style="margin-top:16px; margin-bottom:16px;">Not a member?</h4>
+    <button class="btn btn-success btn-lg" type="button" data-toggle="modal" data-target="#loginModal">New account</button>
 </form>
+
+<div class="modal" tabindex="-1" role="dialog" id="loginModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Create an account</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h6>Username:</h6>
+            <div><input id="create-usr-name" style="-webkit-appearance: listbox;width: 230px;margin-bottom:4px;margin-top:4px;" type="text"/></div>
+            <h6>Password:</h6>
+            <div><input id="create-pass" style="-webkit-appearance: listbox;width: 230px;margin-bottom:4px;margin-top:4px;" type="password"/></div>
+            <h6>Email:</h6>
+            <div><input id="create-email" style="-webkit-appearance: listbox;width: 230px;margin-bottom:4px;margin-top:4px;" type="text"/></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modalToggle" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="create-acc">Create account</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <script src="/rest.js"></script>
 <script src="login.js"></script>
 <script type="application/javascript">
     base.loginController.initOnLoad();
 </script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

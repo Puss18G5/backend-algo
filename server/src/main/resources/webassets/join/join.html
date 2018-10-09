@@ -1,0 +1,35 @@
+<h2>Search for a ride to join</h2>
+
+<h6> Destination location </h6>
+<select id="select-from" style="margin-bottom: 4px"></select>
+
+<h6> Arrival location </h6>
+<select id="select-to" style="margin-bottom: 4px"></select>
+
+<h6> Destination time and destination date </h6>
+<input style="margin-bottom: 8px" type="datetime-local"/>
+
+<h6> Arrival time and arrival date </h6>
+<input style="margin-bottom: 8px" type="datetime-local"/>
+
+  <div><button id="search-rides" class="btn btn-primary">Search rides</button></div>
+
+  <div id="matched-rides" class="mt-5" style="visibility:hidden">
+    <h4>Rides available for the selected date, time and locations</h4>
+    <table class="table" style="background: white">
+        <thead>
+        <tr>
+            <th scope="col">Departure Location</th>
+            <th>Arrival location</th>
+            <th>Departure time</th>
+            <th>Arrival time</th>
+            <th>Date</th>
+            <th>Available seats</th>
+            <th>List of participants</th>
+            <th style="background: #f5f5f5; border-bottom:none; border-top:none"></th>
+        </tr>
+        </thead>
+        <tbody id="join-table">
+        </tbody>
+    </table>
+</div>
