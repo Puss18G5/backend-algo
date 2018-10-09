@@ -1,36 +1,35 @@
 package Algorithm;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import se.lth.base.server.data.Location;
 import se.lth.base.server.data.Ride;
 
 public class DistanceRanker {
-	private Ride userArrivalLocation;
+	private Location userArrivalLocation;
 	private List<Ride> rideAlternatives;
 
-	public DistanceRanker(Ride userArrivalLocation, List<Ride> rideAlternatives) {
+	public DistanceRanker(Location userArrivalLocation, List<Ride> rideAlternatives) {
 		this.userArrivalLocation = userArrivalLocation;
 		this.rideAlternatives = rideAlternatives;
 	}
-	
-	public List<Ride> rank(){
-		DistTouple[] temp = sortableDistanceList(userArrivalLocation.getArrivalLocation(), rideAlternatives);
+
+	public List<Ride> rank() {
+		DistTuple[] temp = sortableDistanceList(userArrivalLocation, rideAlternatives);
 		sort(temp, 0, rideAlternatives.size() - 1);
-		ArrayList<Ride> result = new ArrayList();
-		
-		for(DistTouple dt : temp){
+		ArrayList<Ride> result = new ArrayList<Ride>();
+
+		for (DistTuple dt : temp) {
 			result.add(dt.getRide());
 		}
-		
+
 		return result;
 	}
 
 	// Main function that sorts arr[l..r] using
 	// merge()
-	private void sort(DistTouple[] rides, int l, int r) {
+	private void sort(DistTuple[] rides, int l, int r) {
 		if (l < r) {
 			// Find the middle point
 			int m = (l + r) / 2;
@@ -40,21 +39,21 @@ public class DistanceRanker {
 			sort(rides, m + 1, r);
 
 			// Merge the sorted halves
-			distanceMerge(rides, l, m, r);
+			merge(rides, l, m, r);
 		}
 	}
 
 	// Merges two subarrays of arr[].
 	// First subarray is arr[l..m]
 	// Second subarray is arr[m+1..r]
-	private void distanceMerge(DistTouple[] rides, int l, int m, int r) {
+	private void merge(DistTuple[] rides, int l, int m, int r) {
 		// Find sizes of two subarrays to be merged
 		int n1 = m - l + 1;
 		int n2 = r - m;
 
 		/* Create temp arrays */
-		DistTouple L[] = new DistTouple[n1];
-		DistTouple R[] = new DistTouple[n2];
+		DistTuple L[] = new DistTuple[n1];
+		DistTuple R[] = new DistTuple[n2];
 
 		/* Copy data to temp arrays */
 		for (int i = 0; i < n1; ++i)
@@ -94,14 +93,14 @@ public class DistanceRanker {
 			k++;
 		}
 	}
-	
-	private double distance(Location locA, Location locB) {
-		
+
+	private double calculateDistance(Location locA, Location locB) {
+
 		double lat1 = locA.getLatitude();
 		double lon1 = locA.getLongitude();
 		double lat2 = locB.getLatitude();
 		double lon2 = locB.getLongitude();
-		
+
 		final int R = 6371; // Radius of the earth
 
 		double latDistance = Math.toRadians(lat2 - lat1);
@@ -115,65 +114,36 @@ public class DistanceRanker {
 		System.out.println(locA.getLocation() + " " + locB.getLocation() + " " + Math.sqrt(distance));
 		return Math.sqrt(distance);
 	}
-	
-	
-	private DistTouple[] sortableDistanceList(Location usersArrivalLocation, List<Ride> rideList){
-		DistTouple[] dt = new DistTouple[rideList.size()];
+
+	private DistTuple[] sortableDistanceList(Location usersArrivalLocation, List<Ride> rideList) {
+		DistTuple[] dt = new DistTuple[rideList.size()];
 		int i = 0;
-		for (Ride r: rideList) {
-			dt[i] = new DistTouple(r, distance(usersArrivalLocation, r.getArrivalLocation()));
+		for (Ride r : rideList) {
+			dt[i] = new DistTuple(r, calculateDistance(usersArrivalLocation, r.getArrivalLocation()));
 			i++;
 		}
 		return dt;
 	}
-	
-	/*Helper class to wrap one Ride and the distance between the users shoosen destination location and the registered
-	 * Rides destination location to simplify the sorting process*/
-	private class DistTouple {
+
+	/*
+	 * Helper class to wrap one Ride and the distance between the users choosen destination location and the 
+	 * registered Rides destination location to simplify the sorting process
+	 */
+	private class DistTuple {
 		private Ride rs;
 		private double distance;
 
-		private DistTouple(Ride rs, double distance) {
+		private DistTuple(Ride rs, double distance) {
 			this.rs = rs;
 			this.distance = distance;
 		}
-		
+
 		private Ride getRide() {
 			return rs;
 		}
-		
+
 		private double getDistance() {
 			return distance;
 		}
 	}
-	
-	/*For test purposes only, should be removed after phase 3*/
-	public static void main(String[] args) {
-		//int id, Location departureLocation, Location arrivalLocation, Date aD, Date dD, int size
-		Ride userRide = new Ride(1, new Location("Stockholm", (double) 59.329323, (double) 18.068581),
-				new Location("Göteborg", 57.708870, 11.974560), new Date(), new Date(), 4);
-		Ride r1 = new Ride(2, new Location("Stockholm", (double) 59.329323, (double) 18.068581),
-				new Location("Malmö", 55.604980, 13.003822), new Date(), new Date(), 4);
-		Ride r2 = new Ride(3, new Location("Stockholm", (double) 59.329323, (double) 18.068581),
-				new Location("Märsta", 59.619842, 17.857571), new Date(), new Date(), 4);
-		Ride r3 = new Ride(4, new Location("Stockholm", (double) 59.329323, (double) 18.068581),
-				new Location("Trollhättan", 58.291553, 12.286609), new Date(), new Date(), 4);
-		Ride r4 = new Ride(4, new Location("Stockholm", (double) 59.329323, (double) 18.068581),
-				new Location("Kungälv", 57.872428, 11.975062), new Date(), new Date(), 4);
-		
-		ArrayList<Ride> rides = new ArrayList<Ride>();
-		rides.add(r1);
-		rides.add(r2);
-		rides.add(r3);
-		rides.add(r4);
-		
-		DistanceRanker dr = new DistanceRanker(userRide, rides);
-		List<Ride> result = dr.rank();
-		for (Ride r : result) {
-			System.out.println(r.getDepartureLocation().getLocation() + " " + r.getArrivalLocation().getLocation());
-		}
-		
-	}
 }
-
-
