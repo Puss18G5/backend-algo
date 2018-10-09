@@ -33,14 +33,15 @@ base.loginController = (function() {
                     $(".modaltoggle").attr("data-target", "#create-acc");
                 } else {
                     var role = 'USER';
-                    var credentials = {username, password, role};
-                    base.rest.addUser(credentials);
-                    base.rest.login(username, password, false).then(function(response){
-                        if(response.ok) {
-                            base.changeLocation('/');
-                        } else {
-                            response.json().then(error => view.showFailure(error.message));
-                        }
+                    var credentials = {username, password, email, role};
+                    base.rest.addUser(credentials).then(function() {
+                        base.rest.login(username, password, false).then(function(response){
+                            if(response.ok) {
+                                base.changeLocation('/');
+                            } else {
+                                response.json().then(error => view.showFailure(error.message));
+                            }
+                        });
                     });
                 }
             }
