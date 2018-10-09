@@ -41,6 +41,10 @@ base.userAdminController = function() {
             var pi = document.getElementById('set-password');
             pi.disabled = disabled;
         },
+        editEmail: function(disabled) {
+            var ei = document.getElementById('set-email');
+            ei.disabled = disabled;
+        },
         selectUser: function(user, clickedEl) {
             // Set appropriate user-view class to either add or edit.
             var userView = document.getElementById('user-view');
@@ -48,10 +52,12 @@ base.userAdminController = function() {
                 userView.classList.remove('edit');
                 userView.classList.add('add');
                 view.editPassword(false);
+                view.editEmail(false);
             } else {
                 userView.classList.add('edit');
                 userView.classList.remove('add');
                 view.editPassword(true);
+                view.editEmail(true);
             }
 
             // Set active link the left-hand side menu.
@@ -66,6 +72,7 @@ base.userAdminController = function() {
             document.getElementById('user-id').defaultValue = user.id;
             document.getElementById('set-username').defaultValue = user.username;
             document.getElementById('set-password').defaultValue = '';
+            document.getElementById('set-email').defaultValue = user.email;
             var roleIx = model.roleNames.indexOf(user.role.name);
             var options = document.getElementById('set-role').querySelectorAll('option');
             options.forEach(o => o.defaultSelected = false);
@@ -81,7 +88,8 @@ base.userAdminController = function() {
             var username = document.getElementById('set-username').value;
             var role = document.getElementById('set-role').value;
             var id = document.getElementById('user-id').value;
-            var credentials = {username, password, role};
+            var email = document.getElementById('set-email').value;
+            var credentials = {username, password, email, role};
             if (password === '') {
                 delete credentials.password;
             }
