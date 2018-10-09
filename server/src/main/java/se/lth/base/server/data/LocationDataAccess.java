@@ -7,6 +7,11 @@ import java.util.List;
 import se.lth.base.server.database.DataAccess;
 import se.lth.base.server.database.Mapper;
 
+/**
+ * Access the locations stored in the database.
+ * All locations are inserted to the table when the CreateSchema class is initiated.
+ * @see DataAccess
+ */
 public class LocationDataAccess extends DataAccess<Location> {
 	
     private static class LocationMapper implements Mapper<Location> {
@@ -26,7 +31,7 @@ public class LocationDataAccess extends DataAccess<Location> {
     /**
      * @return all locations in the locations table
      */
-    public List<Location> getAllFoo() {
+    public List<Location> getAllLocations() {
         return query("SELECT * FROM locations");
     }
 
