@@ -8,19 +8,21 @@ public class Ride {
 	private Location departureLocation;
 	private Location arrivalLocation;
 	private List<User> allTravelers;
-	private Date arrivalTime;
-	private Date departureTime;
+	private String arrivalTime;
+	private String departureTime;
 	private int carSize;
 	private int id;
+	private int driverId;
 	
-	public Ride(int id, Location departureLocation, Location arrivalLocation, Date aD, Date dD, int size) {
+	public Ride(int id, Location departureLocation, Location arrivalLocation, String departureTime, String arrivalTime, int size, int driverId) {
 		this.id = id;
 		this.arrivalLocation = arrivalLocation;
 		this.departureLocation = departureLocation;
-		arrivalTime = aD;
-		departureTime = dD;
-		carSize = size;
-		allTravelers = new ArrayList<User>();
+		this.arrivalTime = arrivalTime;
+		this.departureTime = departureTime;
+		this.carSize = size;
+		this.allTravelers = new ArrayList<User>();
+		this.driverId = driverId;
 	}
 	
 	public int getCarSize() {
@@ -47,11 +49,11 @@ public class Ride {
 		return departureLocation;
 	}
 	
-	public Date getArrivalTime() {
+	public String getArrivalTime() {
 		return arrivalTime;
 	}
 	
-	public Date getDepartureTime() {
+	public String getDepartureTime() {
 		return departureTime;
 	}
 	
