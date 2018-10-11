@@ -38,7 +38,7 @@ public class LocationResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Path("location/{location}")
+    @Path("{location}")
     public Location getLocationObject(@PathParam("location") String name) {
     	return locationDao.getLocationObject(name);
     }

@@ -12,31 +12,31 @@ var base = base || {};
 base.fooController = function() {
 
     // List of all foo data, will be useful to have when update functionality is added.
-    var model = [
-        {
-        role: 'Passenger',
-        dep_loc: 'Malmö',
-        arr_loc: 'Lund',
-        dep_time: '11:03',
-        arr_time: '12:03',
+    var model = [];
+        // {
+        // role: 'Passenger',
+        // dep_loc: 'Malmö',
+        // arr_loc: 'Lund',
+        // dep_time: '11:03',
+        // arr_time: '12:03',
 
-        },
-        {
-        role: 'Passenger',
-        dep_loc: 'Lund',
-        arr_loc: 'Malmö',
-        dep_time: '15:04',
-        arr_time: '16:07',
+        // },
+        // {
+        // role: 'Passenger',
+        // dep_loc: 'Lund',
+        // arr_loc: 'Malmö',
+        // dep_time: '15:04',
+        // arr_time: '16:07',
 
-        },
-        {
-        role: 'Driver',
-        dep_loc: 'Göteborg',
-        arr_loc: 'Stockholm',
-        dep_time: '15:04',
-        arr_time: '19:07',
+        // },
+        // {
+        // role: 'Driver',
+        // dep_loc: 'Göteborg',
+        // arr_loc: 'Stockholm',
+        // dep_time: '15:04',
+        // arr_time: '19:07',
 
-        }];
+        // }];
 
         var modal = [
             {
@@ -221,6 +221,19 @@ createBtn: function (btnString) {
 
     var controller = {
         load: function() {
+            base.rest.getUser().then(function(user) {
+                if(user.id === 1) {
+                    base.rest.getRides().then(function(rides) {
+                        model = rides;
+                        return model;
+                    });
+                } else {
+                    base.rest.getUserRides(user.id).then(function(rides) {
+                        model = rides;
+                        return model;
+                    });
+                }
+            });
             // Adds callback to the form.
             document.getElementById('foo-form').onsubmit = function(event) {
                 event.preventDefault();
