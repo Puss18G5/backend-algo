@@ -16,7 +16,7 @@ public class Ride {
 	private int id;
 	private int driverId;
 	
-	public Ride(int id, Location departureLocation, Location arrivalLocation, 
+	public Ride(Location departureLocation, Location arrivalLocation, 
 			String departureTime, String arrivalTime, int size, int driverId) {
 		this.id = id;
 		this.arrivalLocation = arrivalLocation;
@@ -82,7 +82,6 @@ public class Ride {
 		Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(departureTime);
 		return date;
 	}
-
 	
 	public Date arrivalTimeAsDate() throws ParseException {
 		Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(arrivalTime);

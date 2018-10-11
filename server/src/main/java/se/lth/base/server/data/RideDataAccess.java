@@ -26,8 +26,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 	private static class RideMapper implements Mapper<Ride> {
 		@Override
 		public Ride map(ResultSet resultSet) throws SQLException {
-			return new Ride(resultSet.getInt("ride_id"),
-					new Location(resultSet.getString("departure_location"), resultSet.getDouble("latitude"),
+			return new Ride(new Location(resultSet.getString("departure_location"), resultSet.getDouble("latitude"),
 							resultSet.getDouble("longitude")),
 					new Location(resultSet.getString("destination"), resultSet.getDouble("latitude"),
 							resultSet.getDouble("longitude")),
@@ -56,7 +55,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 	public Ride createRide(Location departureLocation, Location destination, String departureTime, String arrivalTime, int nbrSeats, int driverId) {
 		int rideId = insert("INSERT INTO rides (departure_time, arrival_time, nbr_seats, driver_id, departure_location, destination) VALUES (?,?,?,?,?,?)",
 				        departureTime, arrivalTime, nbrSeats, driverId, departureLocation.getLocation(), destination.getLocation());
-		return new Ride(rideId, departureLocation, destination, departureTime, arrivalTime, nbrSeats, driverId);
+		return new Ride(departureLocation, destination, departureTime, arrivalTime, nbrSeats, driverId);
 	}
 	
 	/**
