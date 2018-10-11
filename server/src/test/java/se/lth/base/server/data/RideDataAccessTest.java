@@ -1,6 +1,7 @@
 package se.lth.base.server.data;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
@@ -18,7 +19,35 @@ import se.lth.base.server.database.BaseDataAccessTest;
 public class RideDataAccessTest extends BaseDataAccessTest {
     
 	private final RideDataAccess rideDao = new RideDataAccess(Config.instance().getDatabaseDriver());
-    
+    private final LocationDataAccess locationDao = new LocationDataAccess(Config.instance().getDatabaseDriver());
 	
+    @Test
+    public void testAddRide() {
+    	
+    	/**
+    	Location departure = locationDao.getLocationObject("Helsingborg");
+    	Location arrival = locationDao.getLocationObject("Lund");
+    	
+    	rideDao.createRide(departure, arrival, "2018-01-07 12:00:00", "2018-01-07 13:00:00", 4, 1);
+    	
+    	System.out.println("test");
+    	
+    	List<Ride> rides = rideDao.getAllRides();
+    	System.out.println(rides.size());
+    	for (int i = 0; i < rides.size(); i++) {
+    		Ride ride = rides.get(i);
+    		System.out.println(ride.getDepartureLocation().getLocation()+ ride.getArrivalLocation().getLocation() + ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getID());
+    	}
+    
+    	List<Ride> userRides = rideDao.getRides(1);
+		for (int i = 0; i < userRides.size(); i++) {
+    		Ride ride = userRides.get(i);
+    		System.out.println(ride.getDepartureLocation().getLocation()+ ride.getArrivalLocation().getLocation() + ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getID());
+    	}
+    	
+    	assertEquals(1,1);
+        */
+    }
+    
 
 }

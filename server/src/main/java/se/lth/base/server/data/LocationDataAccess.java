@@ -34,5 +34,14 @@ public class LocationDataAccess extends DataAccess<Location> {
     public List<Location> getAllLocations() {
         return query("SELECT * FROM locations");
     }
+    
+    /**
+     * 
+     * @param locationName
+     * @return location info with specific location name 
+     */
+    public Location getLocationObject(String locationName) {
+    	return queryFirst("SELECT * FROM locations WHERE location_name = ?", locationName);
+    }
 
 }

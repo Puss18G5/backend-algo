@@ -24,7 +24,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 			return new Ride(resultSet.getInt("ride_id"),
 					new Location(resultSet.getString("departure_location"), resultSet.getDouble("latitude"),
 							resultSet.getDouble("longitude")),
-					new Location(resultSet.getString("arrival_location"), resultSet.getDouble("latitude"),
+					new Location(resultSet.getString("destination"), resultSet.getDouble("latitude"),
 							resultSet.getDouble("longitude")),
 					resultSet.getString("departure_time"), 
 					resultSet.getString("arrival_time"),
@@ -59,15 +59,18 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 * @return all rides currently in the system
 	 */
 	public List<Ride> getAllRides(){
-		return query("SELECT * FROM rides");
+		return query("SELECT * FROM rides JOIN locations ON rides.departure_location = locations.location_name");
 	}
 	
 	/**
 	 * @param userId
 	 * @return all rides connected to one user id, i.e. where the specific user is either a passenger or driver
+	 *
+	 *
+	 * DOESNT WORK YET
 	 */
 	public List<Ride> getRides(int userId){
-		return query("SELECT * FROM rides LEFT JOIN ride_passengers  (ride_id) LEFT JOIN users USING (user_id) WHERE user_id = ?", userId);
+		return query("SELECT * FROM rides LEFT JOIN ride_passengers USING (ride_id) LEFT JOIN users USING (user_id) WHERE user_id = ?", userId);
 	}
 	
 	

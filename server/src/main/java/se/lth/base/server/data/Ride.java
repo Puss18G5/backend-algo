@@ -36,6 +36,10 @@ public class Ride {
 		return allTravelers;
 	}
 	
+	public int getDriverId() {
+		return driverId;
+	}
+	
 	public boolean addTraveler(User u) {
 		return allTravelers.add(u);
 	}
