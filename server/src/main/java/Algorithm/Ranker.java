@@ -70,13 +70,13 @@ public class Ranker {
 //		Location userArrLoc = new Location("Göteborg", 57.708870, 11.974560);
 //
 //		Ride r1 = new Ride(2, new Location("Göteborg", 57.708870, 11.974560),
-//				new Location("Stockholm1", 59.329323, 18.068581), "2018/07/23 19:00:00", "2018/07/23 20:00:00", 4, 1);
+//				new Location("Stockholm1", 59.329323, 18.068581), "2018-07-23 19:00:00", "2018-07-23 20:00:00", 4, 1);
 //		Ride r2 = new Ride(3, new Location("Göteborg", 57.708870, 11.974560),
-//				new Location("Malmö", 55.604980, 13.003822), "2018/08/23 19:00:00", "2018/08/23 20:00:00", 4, 2);
+//				new Location("Malmö", 55.604980, 13.003822), "2018-08-23 19:00:00", "2018-08-23 20:00:00", 4, 2);
 //		Ride r3 = new Ride(4, new Location("Göteborg", 57.708870, 11.974560),
-//				new Location("Stockholm2", 59.329323, 18.068581), "2018/09/23 19:00:00", "2018/09/23 20:00:00", 4, 3);
+//				new Location("Stockholm2", 59.329323, 18.068581), "2018-09-23 19:00:00", "2018-09-23 20:00:00", 4, 3);
 //		Ride r4 = new Ride(4, new Location("Göteborg", 57.708870, 11.974560),
-//				new Location("Stockholm3", 59.329323, 18.068581), "2018/12/23 19:00:00", "2018/12/23 20:00:00", 4, 4);
+//				new Location("Stockholm3", 59.329323, 18.068581), "2018-12-23 19:00:00", "2018-12-23 20:00:00", 4, 4);
 //
 //		ArrayList<Ride> rides = new ArrayList<Ride>();
 //		rides.add(r1);
