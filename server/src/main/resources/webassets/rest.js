@@ -134,7 +134,7 @@ base.rest = (function() {
         },
         createRide: function(departureLocation, arrivalLocation, departureTime, arrivalTime, size, driverId) {
             var ride = {departureLocation, arrivalLocation, departureTime, arrivalTime, size, driverId};
-            return baseFetch('/rest/ride', {
+            return baseFetch('rest/ride', {
                 method: 'POST',
                 body: JSON.stringify(ride),
                 headers: jsonHeader

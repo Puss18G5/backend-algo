@@ -48,17 +48,16 @@ public class RideResource {
     	return rideDao.getRides(userId);
     }
     
-
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-//    @Path ("vadsomhelst")
-//    public List<Ride> searchRelevantRides(String str) throws ParseException{
-//    	System.out.println(str);
-//    	
+    @GET
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path ("/aLocation/dLocation/dTime/aTime")
+    public List<Ride> searchRelevantRides(	@PathParam("aLocation") String arrivalLocation,
+    										@PathParam("dLocation") String departureLocation,
+    										@PathParam("dTime") String departureTime,
+    										@PathParam("aTime") String arrivalTime) throws ParseException{
+    	
 //    	List<Ride> bull = new ArrayList<>();
-//    	return bull;
-////    			rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime);
-//
-//    }
+    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime);
+    }
     
 }
