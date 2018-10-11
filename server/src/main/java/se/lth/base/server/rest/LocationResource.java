@@ -2,6 +2,7 @@ package se.lth.base.server.rest;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -28,7 +29,7 @@ public class LocationResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @RolesAllowed(Role.Names.ADMIN)
+    @PermitAll
     @Path("all")
     public List<Location> getAllLocations() {
         return locationDao.getAllLocations();

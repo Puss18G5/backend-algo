@@ -56,7 +56,9 @@ base.loginController = (function() {
                         base.changeLocation('/');
                     } else {
                         document.getElementById('password').value = '';
-                        response.json().then(error => view.showFailure(error.message));
+                        document.getElementById('username').value = '';
+                        alert("Incorrect username or password");
+                        // response.json().then(error => view.showFailure(error.message));
                     }
                 });
         },
@@ -64,15 +66,16 @@ base.loginController = (function() {
             document.addEventListener('DOMContentLoaded', base.loginController.load);
         },
         validPassword: function (password) {
-            var passwordRegex = /^[A-Za-z0-9\s!@#$%^&*()_+=-`~\\\]\[{}|';:/.,?><]*$/
+            var passwordRegex = /[A-Za-z0-9åäöÅÄÖ\s!@#$%^&*()_+=-`~\\\]\[{}|';:/.,?><]{8,20}/
             return password.length >= 8 && password.length <= 20 && password.match(passwordRegex);
         },
         validUsername: function (username) {
-            var letterNumber = /^[0-9a-zA-Z]+$/
+            var letterNumber = /[0-9a-zA-ZåäöÅÄÖ]{3,20}/
             return username.length >= 3 && username.length <= 20 && username.match(letterNumber);
         },
         validEmail: function (email) {
-            var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
+            //var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i
+            var emailRegex = /[a-z0-9åäö._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/
             return email.length >= 3 && email.length <= 40 && email.match(emailRegex);
         },
         invalidInput: function (username, password, email) {

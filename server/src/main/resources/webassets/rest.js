@@ -24,6 +24,16 @@ base.rest = (function() {
         };
     };
 
+    var Location = function(json) {
+        Object.assign(this, json);
+        this.json = json;
+    }
+
+    var Ride = function(json) {
+        Object.assign(this, json);
+        this.json = json;
+    }
+
 
     var objOrError = function(json, cons) {
         if (json.error) {
@@ -119,6 +129,22 @@ base.rest = (function() {
                 .then(function() {
                     return total;
                 });
+        },
+        getLocations: function() {
+            return baseFetch('rest/location/all')
+            .then(response => response.json()).then(locations => locations.map(location => new Location(location)));
+        },
+        createRide: function(from, to, dep_time, arr_time, nbrSeats, id) {
+            var ride = {from, to, dep_time, arr_time, nbrSeats, id};
+            return baseFetch('rest/ride', {
+                method: 'POST',
+                body: JSON.stringify(ride),
+                headers: jsonHeader
+            }).then(response => response.json()).then(r => new Ride(r));
+        },
+        getRides: function() {
+            return baseFetch('rest/ride/all')
+            .then(response => response.json()).then(rides => rides.map(ride => new Ride(ride)));
         }
     };
 })();
