@@ -1,5 +1,6 @@
 package Algorithm;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ public class TimeRanker {
 	}
 
 	/**/
-	public List<Ride> rank() {
+	public List<Ride> rank() throws ParseException {
 		Ride[] temp = sortableTimeList(rideAlternatives);
 		sort(temp, 0, rideAlternatives.size() - 1);
 		List<Ride> result = new ArrayList<Ride>();
@@ -27,7 +28,7 @@ public class TimeRanker {
 	}
 
 	/* Main function that sorts arr[l..r] using merge() */
-	private void sort(Ride[] arr, int l, int r) {
+	private void sort(Ride[] arr, int l, int r) throws ParseException {
 		if (l < r) {
 			// Find the middle point
 			int m = (l + r) / 2;
@@ -41,7 +42,7 @@ public class TimeRanker {
 		}
 	}
 
-	private void merge(Ride arr[], int l, int m, int r) {
+	private void merge(Ride arr[], int l, int m, int r) throws ParseException {
 		// Find sizes of two subarrays to be merged
 		int n1 = m - l + 1;
 		int n2 = r - m;
@@ -64,7 +65,7 @@ public class TimeRanker {
 		// Initial index of merged subarry array */
 		int k = l;
 		while (i < n1 && j < n2) {
-			if (L[i].getDepartureTime().before(R[j].getDepartureTime())) {
+			if (L[i].departureTimeAsDate().before(R[j].departureTimeAsDate())) {
 				arr[k] = L[i];
 				i++;
 			} else {
