@@ -143,4 +143,22 @@ public class UserDataAccess extends DataAccess<User> {
                 "SELECT user_id from users WHERE username = ?", user.getName());
         return new Session(sessionId, user);
     }
+    
+    /**
+     * @param userId
+     * @return
+     */
+    public boolean isUserEmailUnique() {
+    	return execute("SELECT email FROM users") < 1;
+    }
+    
+    /**
+     * 
+     * @param userId
+     * @return
+     */
+    public boolean isUserNameUnique() {
+    	return execute("SELECT username FROM users") < 1;
+    }
+
 }

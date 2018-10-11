@@ -65,13 +65,13 @@ public class Ride {
 	}
 	
 	public Date departureTimeAsDate() throws ParseException {
-		Date date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(departureTime);
+		Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(departureTime);
 		return date;
 	}
 
 	
 	public Date arrivalTimeAsDate() throws ParseException {
-		Date date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(arrivalTime);
+		Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(arrivalTime);
 		return date;
 	}
 }
