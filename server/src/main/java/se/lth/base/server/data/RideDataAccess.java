@@ -70,11 +70,9 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 * @param userId
 	 * @return all rides connected to one user id, i.e. where the specific user is either a passenger or driver
 	 *
-	 *
-	 * DOESNT WORK YET
 	 */
 	public List<Ride> getRides(int userId){
-		return query("SELECT * FROM rides LEFT JOIN ride_passengers USING (ride_id) LEFT JOIN users USING (user_id) WHERE user_id = ?", userId);
+		return query("SELECT * FROM ride_passengers JOIN rides ON ride_passengers.user_id = rides.driver_id JOIN locations ON rides.departure_location = locations.location_name WHERE user_id = ?", userId);
 	}
 	
 
