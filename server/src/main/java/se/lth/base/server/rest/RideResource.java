@@ -28,7 +28,7 @@ public class RideResource {
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @PermitAll
     public Ride createRide(Ride ride) throws URISyntaxException {
-    	return rideDao.createRide(ride.getDepartureLocation(), ride.getArrivalLocation(), ride.getDepartureTime(), ride.getArrivalTime(), ride.getCarSize(), ride.getID());
+    	return rideDao.createRide(ride.getDepartureLocation(), ride.getArrivalLocation(), ride.getDepartureTime(), ride.getArrivalTime(), ride.getCarSize(), ride.getDriverId());
     }
     
     @GET
