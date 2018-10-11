@@ -28,6 +28,16 @@ public class Ride {
 		this.driverId = driverId;
 	}
 	
+	public Ride(Location departureLocation, Location arrivalLocation, 
+			String departureTime, String arrivalTime) {
+//		this.id = id;
+		this.arrivalLocation = arrivalLocation;
+		this.departureLocation = departureLocation;
+		this.arrivalTime = arrivalTime;
+		this.departureTime = departureTime;
+		this.allTravelers = new ArrayList<User>();	
+	}
+	
 	public int getCarSize() {
 		return carSize;
 	}
