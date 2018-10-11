@@ -2,9 +2,12 @@ package se.lth.base.server.data;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import Algorithm.Ranker;
+import se.lth.base.server.Config;
 import se.lth.base.server.database.DataAccess;
 import se.lth.base.server.database.Mapper;
 
@@ -18,6 +21,8 @@ import se.lth.base.server.database.Mapper;
  */
 public class RideDataAccess extends DataAccess<Ride> {
 
+	private final LocationDataAccess locationDao = new LocationDataAccess(Config.instance().getDatabaseDriver());
+	
 	private static class RideMapper implements Mapper<Ride> {
 		@Override
 		public Ride map(ResultSet resultSet) throws SQLException {
@@ -74,6 +79,25 @@ public class RideDataAccess extends DataAccess<Ride> {
 	}
 	
 	
+	/**
+	 * 
+	 * @param aLocation
+	 * @param dLocation
+	 * @param arrivalTime
+	 * @param departureTime
+	 * @return
+	 * @throws ParseException
+	 */
+	public List<Ride> getRelevantRides(String aLocation, String dLocation,
+    		String arrivalTime, String departureTime) throws ParseException {
+		Location arrivalLocation = locationDao.getLocationObject(aLocation);
+		Location departureLocation = locationDao.getLocationObject(dLocation);
+		Ride userRide = new Ride(departureLocation, arrivalLocation, departureTime, arrivalTime);
+		List<Ride> allRides = getAllRides();
+		Ranker ranker = new Ranker(allRides, userRide);
+		return ranker.rank();
+	}
+
 	
 
 }
