@@ -47,12 +47,14 @@ public class RideResource {
     	return rideDao.getRides(userId);
     }
     
+
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path ("vadsomhelst")
     public List<Ride> searchRelevantRides(String arrivalLocation, String departureLocation,
     		String arrivalTime, String departureTime) throws ParseException{
     	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime);
-    }
+
+
     
 }

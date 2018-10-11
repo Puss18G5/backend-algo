@@ -78,7 +78,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 		return query("SELECT * FROM rides LEFT JOIN ride_passengers USING (ride_id) LEFT JOIN users USING (user_id) WHERE user_id = ?", userId);
 	}
 	
-	
+
 	/**
 	 * 
 	 * @param aLocation
@@ -98,6 +98,5 @@ public class RideDataAccess extends DataAccess<Ride> {
 		return ranker.rank();
 	}
 
-	
 
 }
