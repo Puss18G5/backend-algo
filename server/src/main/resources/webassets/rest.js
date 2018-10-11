@@ -1,6 +1,5 @@
 var base = base || {};
 base.rest = (function() {
-
     var Foo = function(json) {
         Object.assign(this, json);
         this.createdDate = new Date(this.created);
@@ -31,7 +30,6 @@ base.rest = (function() {
 
     var Ride = function(json) {
         Object.assign(this, json);
-        this.json = json;
     }
 
 
@@ -134,8 +132,8 @@ base.rest = (function() {
             return baseFetch('rest/location/all')
             .then(response => response.json()).then(locations => locations.map(location => new Location(location)));
         },
-        createRide: function(from, to, dep_time, arr_time, nbrSeats, id) {
-            var ride = {from, to, dep_time, arr_time, nbrSeats, id};
+        createRide: function(departureLocation, arrivalLocation, departureTime, arrivalTime, size, driverId) {
+            var ride = {departureLocation, arrivalLocation, departureTime, arrivalTime, size, driverId};
             return baseFetch('rest/ride', {
                 method: 'POST',
                 body: JSON.stringify(ride),
@@ -144,6 +142,14 @@ base.rest = (function() {
         },
         getRides: function() {
             return baseFetch('rest/ride/all')
+            .then(response => response.json()).then(rides => rides.map(ride => new Ride(ride)));
+        },
+        getLocation: function(location) {
+            return baseFetch('rest/location/' + location)
+            .then(response => response.json()).then(location => new Location(location));
+        },
+        getUserRides: function(userId) {
+            return baseFetch('rest/ride/user/' + userId)
             .then(response => response.json()).then(rides => rides.map(ride => new Ride(ride)));
         }
     };
