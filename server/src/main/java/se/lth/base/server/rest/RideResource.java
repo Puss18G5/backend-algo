@@ -54,7 +54,6 @@ public class RideResource {
     public List<Ride> searchRelevantRides(String arrivalLocation, String departureLocation,
     		String arrivalTime, String departureTime) throws ParseException{
     	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime);
-
-
+    }
     
 }
