@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class RideTest {
 
-	private Ride ride = new Ride(1, new Location("Stockholm", 59.3293, 18.0686), new Location("Malmö", 55.6050, 13.0038),
+	private Ride ride = new Ride(new Location("Stockholm", 59.3293, 18.0686), new Location("Malmö", 55.6050, 13.0038),
 			"2018/10/23 19:00:00", "2018/10/23 20:00:00", 3, 2);
 	
 	@Test
