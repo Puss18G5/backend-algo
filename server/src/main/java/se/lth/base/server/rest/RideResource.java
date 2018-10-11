@@ -1,6 +1,7 @@
 package se.lth.base.server.rest;
 
 import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
@@ -28,7 +29,8 @@ public class RideResource {
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @PermitAll
     public Ride createRide(Ride ride) throws URISyntaxException {
-    	return rideDao.createRide(ride.getDepartureLocation(), ride.getArrivalLocation(), ride.getDepartureTime(), ride.getArrivalTime(), ride.getCarSize(), ride.getDriverId());
+    	return rideDao.createRide(ride.getDepartureLocation(), ride.getArrivalLocation(), 
+    			ride.getDepartureTime(), ride.getArrivalTime(), ride.getCarSize(), ride.getDriverId());
     }
     
     @GET
@@ -45,10 +47,14 @@ public class RideResource {
     	return rideDao.getRides(userId);
     }
     
-    
-    public List<Ride> searchRelevantRides(String arrivalLocation, String departureLocation, 
-    		String arrivalTime, String departureTime){
-    	return rideDao.getAllRelevantRides(arrivalLocation,departureLocation,arrivalTime,departureTime);
-    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path ("vadsomhelst")
+    public List<Ride> searchRelevantRides(String arrivalLocation, String departureLocation,
+    		String arrivalTime, String departureTime) throws ParseException{
+    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime);
+
+
     
 }
