@@ -45,4 +45,10 @@ public class RideResource {
     	return rideDao.getRides(userId);
     }
     
+    
+    public List<Ride> searchRelevantRides(String arrivalLocation, String departureLocation, 
+    		String arrivalTime, String departureTime){
+    	return rideDao.getAllRelevantRides(arrivalLocation,departureLocation,arrivalTime,departureTime);
+    }
+    
 }
