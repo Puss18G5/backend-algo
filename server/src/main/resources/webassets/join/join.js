@@ -4,25 +4,22 @@ base.joinRideController = function() {
         {
         dep_loc: 'Malmö',
         arr_loc: 'Lund',
-        dep_time: '11:03',
-        arr_time: '12:03',
-        date: '2018-09-10',
+        dep_time: '2018-09-10 11:03',
+        arr_time: '2018-09-10 12:03',
         seats: 4
         },
         {
         dep_loc: 'Lund',
         arr_loc: 'Malmö',
-        dep_time: '15:04',
-        arr_time: '16:07',
-        date: '1995-03-13',
+        dep_time: '2018-09-10 15:04',
+        arr_time: '2018-09-10 16:07',
         seats: 8
         },
         {
         dep_loc: 'Göteborg',
         arr_loc: 'Stockholm',
-        dep_time: '15:04',
-        arr_time: '19:07',
-        date: '2018-03-19',
+        dep_time: '2018-09-10 15:04',
+        arr_time: '2018-09-10 19:07',
         seats: 4
         }
     ];
@@ -47,7 +44,7 @@ base.joinRideController = function() {
 
             tr.appendChild(secondlasttd);
 
-            var lasttd = view.createJoinBtn();
+            var lasttd = view.createJoinBtn(elems);
 
             tr.appendChild(lasttd);
 
@@ -82,7 +79,7 @@ base.joinRideController = function() {
 
             return secondlasttd;
         },
-        createJoinBtn: function () {
+        createJoinBtn: function (ride) {
             var lasttd = document.createElement("td");
             lasttd.id = 'last-td';
             var btn = document.createElement("button");
@@ -92,6 +89,10 @@ base.joinRideController = function() {
             lasttd.style.borderTop = 'none';
 
             btn.onclick = function(event) {
+                base.rest.getUser().then(function(user) {
+                    // if(base.rest.isBusy(user.id, from, to) alert('You are already scheduled in tnis time interval')
+                    // else joinRide(user.id, ride.id); alert('Ride successfully joined');
+                });
                 alert('Ride successfully joined');
             };
 
@@ -101,27 +102,21 @@ base.joinRideController = function() {
         }
     };
 
-    for(var i; i < 100; i++) {
-        var tr = document.createElement("tr");
-        tr.id= i;
-    }
     var controller = {
         load: function () {
             var select_from = document.getElementById("select-from");
             var select_to = document.getElementById("select-to");
-            var myobject = {
-                Malmö : 'Malmö',
-                Lund : 'Lund',
-                Stockholm : 'Stockholm',
-                Göteborg : 'Göteborg'
-            }
-            for(index in myobject) {
-                select_to.options[select_to.options.length] = new Option(myobject[index], index);
-            }
 
-            for(index in myobject) {
-                select_from.options[select_from.options.length] = new Option(myobject[index], index);
-            }
+            base.rest.getLocations().then(function(locations) {
+                locations.forEach(function(location, index) {
+                    select_to.options[select_to.options.length] = new Option(location.name, index);
+                    select_from.options[select_from.options.length] = new Option(location.name, index);
+                });
+            });
+
+            base.rest.getRides().then(function(rides){
+                console.log(rides);
+            })
 
             document.getElementById("search-rides").onclick = function (event){
             document.getElementById("matched-rides").style.visibility = "visible";

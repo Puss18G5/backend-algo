@@ -2,7 +2,16 @@ var base = base || {};
 base.createRideController = function() {
     var controller = {
         load: function () {
-            document.getElementById('create').onclick = function(event) {
+                var select_from = document.getElementById("create-from");
+                var select_to = document.getElementById("create-to");
+
+                base.rest.getLocations().then(function(locations) {
+                    locations.forEach(function(location, index) {
+                        select_to.options[select_to.options.length] = new Option(location.name, index);
+                        select_from.options[select_from.options.length] = new Option(location.name, index);
+                    });
+                });
+                document.getElementById('create').onclick = function(event) {
                 var nbr_seats = document.getElementById("create-seats").value;
                 var from = document.getElementById("create-from").value;
                 var to = document.getElementById("create-to").value;
@@ -29,7 +38,7 @@ base.createRideController = function() {
                 if(hh < 10) hh = '0' + hh;
                 if(mm < 10) mm = '0' + mm;
 
-                var isPassedDate = controller.isPassedDate(dep_date, arr_date, today, hh, mm, dep_hrs_mins)
+                var isPassedDate = controller.isPassedDate(dep_date, arr_date, today, hh, mm, dep_hrs_mins);
 
                 // Call method that creates a ride in the database
                 // Check if any of the input values are invalid
@@ -41,7 +50,11 @@ base.createRideController = function() {
                 } else if (correct_arr_date <= correct_dep_date) {
                     alert('Arrival time needs to occur before the departure time');
                 } else {
-                    alert("Ride successfully created");
+                    base.rest.getUser().then(function(user) {
+                        console.log(user.id);
+                        base.rest.createRide(from, to, correct_dep_date, correct_arr_date, nbr_seats, user.id);
+                        alert("Ride successfully created");
+                    });
                 }
                 return false;
             };
@@ -86,6 +99,17 @@ base.createRideController = function() {
         },
         isPassedDate: function (dep_date, arr_date, today, hh, mm, dep_time) {
             return dep_date < today || arr_date < today || ((dep_date === today) && dep_time < (hh + ':' + mm));
+        },
+        isInLocations: function(input_location) {
+            var isInLocations = false;
+            base.rest.getLocations().then(function(locations) {
+                locations.forEach(function(location) {
+                    if(location.name === input_location) {
+                        isInLocations = true;
+                    }
+                });
+            });
+            return isInLocations;
         }
     };
     return controller;
