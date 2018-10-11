@@ -1,5 +1,7 @@
 package se.lth.base.server.data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +16,8 @@ public class Ride {
 	private int id;
 	private int driverId;
 	
-	public Ride(int id, Location departureLocation, Location arrivalLocation, String departureTime, String arrivalTime, int size, int driverId) {
+	public Ride(int id, Location departureLocation, Location arrivalLocation, 
+			String departureTime, String arrivalTime, int size, int driverId) {
 		this.id = id;
 		this.arrivalLocation = arrivalLocation;
 		this.departureLocation = departureLocation;
@@ -59,5 +62,16 @@ public class Ride {
 	
 	public int getID() {
 		return id;
+	}
+	
+	public Date departureTimeAsDate() throws ParseException {
+		Date date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(departureTime);
+		return date;
+	}
+
+	
+	public Date arrivalTimeAsDate() throws ParseException {
+		Date date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(arrivalTime);
+		return date;
 	}
 }

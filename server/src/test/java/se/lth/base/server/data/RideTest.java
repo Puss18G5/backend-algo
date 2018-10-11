@@ -7,6 +7,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -18,7 +19,7 @@ import java.util.Date;
 public class RideTest {
 
 	private Ride ride = new Ride(1, new Location("Stockholm", 59.3293, 18.0686), new Location("Malmö", 55.6050, 13.0038),
-			new Date(2018,10,8,9,00), new Date(2018,10,8,16,00), 3);
+			"2018/10/23 19:00:00", "2018/10/23 20:00:00", 3, 2);
 	
 	@Test
 	public void getArrivalLocation() {
@@ -66,8 +67,16 @@ public class RideTest {
 	public void tryGetTime() {
 		assertNotNull(ride.getArrivalTime());
 		assertNotNull(ride.getDepartureTime());
-		System.out.println(ride.getArrivalTime().toString());
-		System.out.println(ride.getDepartureTime().toString());
+//		System.out.println(ride.getArrivalTime().toString());
+//		System.out.println(ride.getDepartureTime().toString());
+	}
+	
+	@Test
+	public void tryGetTimeAsDate() throws ParseException {
+		Date aDate = ride.arrivalTimeAsDate();
+		Date dDate = ride.departureTimeAsDate();
+		System.out.println(aDate.toString());
+		System.out.println(dDate.toString());
 	}
 	
 }
