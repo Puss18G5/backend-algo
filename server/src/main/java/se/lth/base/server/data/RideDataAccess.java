@@ -71,6 +71,9 @@ public class RideDataAccess extends DataAccess<Ride> {
 	}
 	
 	
-	
+	public List<Ride> getAllRelevantRides(String arrivalLocation, String departureLocation, 
+    		String arrivalTime, String departureTime){
+//		Location arrLoc = new Location(arrivalLocation);
+	}
 
 }
