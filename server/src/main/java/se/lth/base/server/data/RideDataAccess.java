@@ -64,6 +64,16 @@ public class RideDataAccess extends DataAccess<Ride> {
 		return query("SELECT * FROM rides JOIN locations ON rides.departure_location = locations.location_name");
 	}
 	
+	
+	/**
+	 * 
+	 * @param rideId
+	 * @return ride with specified ride id
+	 */
+	public Ride getRide(int rideId) {
+		return queryFirst("SELECT * FROM rides WHERE ride_id = ?", rideId);
+	}
+	
 	/**
 	 * @param userId
 	 * @return all rides connected to one user id, i.e. where the specific user is either a passenger or driver
@@ -95,13 +105,15 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 * 
 	 * TODO Needs to check if user isnt already booked that time period
 	 */
-	public boolean addUserToRide(int rideId, int userId) {
+	public Ride addUserToRide(int rideId, int userId) {
 		
 		// Decrements nbr_seats by 1
 		execute("UPDATE rides SET nbr_seats = nbr_seats - 1 WHERE ride_id = ?", rideId);
 		
 		// Inserts passenger to ride_passengers table
-		return execute("INSERT INTO ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId) > 0;	
+		execute("INSERT INTO ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId);
+		
+		return getRide(rideId);
 	}
 
 	/**
