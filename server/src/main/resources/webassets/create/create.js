@@ -13,8 +13,20 @@ base.createRideController = function() {
                 });
                 document.getElementById('create').onclick = function(event) {
                 var nbr_seats = document.getElementById("create-seats").value;
-                var from = document.getElementById("create-from").value;
-                var to = document.getElementById("create-to").value;
+                var x = document.getElementById("create-from");
+                var y = document.getElementById("create-to");
+                var from = x.options[x.selectedIndex].text;
+                var to = y.options[y.selectedIndex].text;
+                var from_loc = {};
+                var to_loc = {};
+
+                base.rest.getLocation(from).then(function(loc) {
+                    from_loc = loc;
+                });
+                base.rest.getLocation(to).then(function(loc) {
+                    to_loc = loc;
+                });
+
                 var arr_date_time = document.getElementById("create-arr-time").value;
                 var dep_date_time = document.getElementById("create-dep-time").value;
                 
@@ -51,9 +63,9 @@ base.createRideController = function() {
                     alert('Arrival time needs to occur before the departure time');
                 } else {
                     base.rest.getUser().then(function(user) {
-                        console.log(user.id);
-                        base.rest.createRide(from, to, correct_dep_date, correct_arr_date, nbr_seats, user.id);
-                        alert("Ride successfully created");
+                        base.rest.createRide(from_loc, to_loc, correct_dep_date, correct_arr_date, nbr_seats, user.id).then(function() {
+                            alert("Ride successfully created");
+                        });
                     });
                 }
                 return false;

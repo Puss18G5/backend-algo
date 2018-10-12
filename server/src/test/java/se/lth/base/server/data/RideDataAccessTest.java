@@ -24,7 +24,7 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     @Test
     public void testAddRide() {
     	
-    	/**
+    	
     	Location departure = locationDao.getLocationObject("Helsingborg");
     	Location arrival = locationDao.getLocationObject("Lund");
     	
@@ -32,13 +32,14 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     	
     	System.out.println("test");
     	
+    	
     	List<Ride> rides = rideDao.getAllRides();
-    	System.out.println(rides.size());
     	for (int i = 0; i < rides.size(); i++) {
     		Ride ride = rides.get(i);
-    		System.out.println(ride.getDepartureLocation().getLocation()+ ride.getArrivalLocation().getLocation() + ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getID());
+    		System.out.println(ride.getDepartureLocation().getLocation()+ ride.getArrivalLocation().getLocation() + ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getDriverId());
     	}
-    
+    	
+    	
     	List<Ride> userRides = rideDao.getRides(1);
 		for (int i = 0; i < userRides.size(); i++) {
     		Ride ride = userRides.get(i);
@@ -46,7 +47,7 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     	}
     	
     	assertEquals(1,1);
-        */
+        
     }
     
 

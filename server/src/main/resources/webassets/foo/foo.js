@@ -244,15 +244,19 @@ createBtn: function (btnString) {
 
     var controller = {
         load: function() {
-          base.rest.getRides().then(function(rides) {
-            model = rides;
-            console.log(model);
-            return model;
-
-          })
-
-
-
+            base.rest.getUser().then(function(user) {
+                if(user.id === 1) {
+                    base.rest.getRides().then(function(rides) {
+                        model = rides;
+                        return model;
+                    });
+                } else {
+                    base.rest.getUserRides(user.id).then(function(rides) {
+                        model = rides;
+                        return model;
+                    });
+                }
+            });
             // Adds callback to the form.
             document.getElementById('foo-form').onsubmit = function(event) {
                 event.preventDefault();

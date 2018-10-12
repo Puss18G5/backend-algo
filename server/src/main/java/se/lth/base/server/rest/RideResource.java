@@ -2,6 +2,7 @@ package se.lth.base.server.rest;
 
 import java.net.URISyntaxException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
@@ -47,12 +48,14 @@ public class RideResource {
     	return rideDao.getRides(userId);
     }
     
-
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Path ("vadsomhelst")
-    public List<Ride> searchRelevantRides(String arrivalLocation, String departureLocation,
-    		String arrivalTime, String departureTime) throws ParseException{
+    @Path ("/{aLocation}/{dLocation}/{dTime}/{aTime}")
+    public List<Ride> searchRelevantRides(	@PathParam("aLocation") String arrivalLocation,
+    										@PathParam("dLocation") String departureLocation,
+    										@PathParam("dTime") String departureTime,
+    										@PathParam("aTime") String arrivalTime) throws ParseException{
+
     	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime);
     }
     
