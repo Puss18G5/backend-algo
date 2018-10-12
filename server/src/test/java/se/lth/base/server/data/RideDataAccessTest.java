@@ -25,10 +25,10 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     public void testAddRide() {
     	
     	
-    	Location departure = locationDao.getLocationObject("Helsingborg");
-    	Location arrival = locationDao.getLocationObject("Lund");
+    	//Location departure = locationDao.getLocationObject("Helsingborg");
+    	//Location arrival = locationDao.getLocationObject("Lund");
     	
-    	rideDao.createRide(departure, arrival, "2018-01-07 12:00:00", "2018-01-07 13:00:00", 4, 1);
+    	rideDao.createRide("Helsingborg", "Lund", "2018-01-07 12:00:00", "2018-01-07 13:00:00", 4, 1);
     	
     	System.out.println("test");
     	
@@ -36,14 +36,14 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     	List<Ride> rides = rideDao.getAllRides();
     	for (int i = 0; i < rides.size(); i++) {
     		Ride ride = rides.get(i);
-    		System.out.println(ride.getDepartureLocation().getLocation()+ ride.getArrivalLocation().getLocation() + ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getDriverId());
+    		System.out.println(ride.getDepartureLocation()+ ride.getArrivalLocation()+ ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getDriverId());
     	}
     	
-    	
+    	System.out.println(" ");
     	List<Ride> userRides = rideDao.getRides(1);
 		for (int i = 0; i < userRides.size(); i++) {
     		Ride ride = userRides.get(i);
-    		System.out.println(ride.getDepartureLocation().getLocation()+ ride.getArrivalLocation().getLocation() + ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getID());
+    		System.out.println(ride.getDepartureLocation()+ ride.getArrivalLocation() + ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getID());
     	}
     	
     	assertEquals(1,1);

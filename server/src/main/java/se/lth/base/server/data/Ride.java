@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Ride {
-	private Location departureLocation;
-	private Location arrivalLocation;
+	private String departureLocation;
+	private String arrivalLocation;
 	private List<User> allTravelers;
 	private String arrivalTime;
 	private String departureTime;
@@ -16,9 +16,8 @@ public class Ride {
 	private int id;
 	private int driverId;
 	
-	public Ride(Location departureLocation, Location arrivalLocation, 
+	public Ride(String departureLocation, String arrivalLocation, 
 			String departureTime, String arrivalTime, int size, int driverId) {
-		this.id = id;
 		this.arrivalLocation = arrivalLocation;
 		this.departureLocation = departureLocation;
 		this.arrivalTime = arrivalTime;
@@ -28,9 +27,8 @@ public class Ride {
 		this.driverId = driverId;
 	}
 	
-	public Ride(Location departureLocation, Location arrivalLocation, 
+	public Ride(String departureLocation, String arrivalLocation, 
 			String departureTime, String arrivalTime) {
-//		this.id = id;
 		this.arrivalLocation = arrivalLocation;
 		this.departureLocation = departureLocation;
 		this.arrivalTime = arrivalTime;
@@ -58,11 +56,11 @@ public class Ride {
 		return allTravelers.remove(u);
 	}
 	
-	public Location getArrivalLocation() {
+	public String getArrivalLocation() {
 		return arrivalLocation;
 	}
 	
-	public Location getDepartureLocation() {
+	public String getDepartureLocation() {
 		return departureLocation;
 	}
 	
