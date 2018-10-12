@@ -32,6 +32,10 @@ base.rest = (function() {
         Object.assign(this, json);
     }
 
+    var Bool = function (json) {
+        Object.assign(this, json);
+    }
+
 
     var objOrError = function(json, cons) {
         if (json.error) {
