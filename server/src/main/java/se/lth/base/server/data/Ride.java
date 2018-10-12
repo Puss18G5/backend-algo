@@ -16,8 +16,9 @@ public class Ride {
 	private int id;
 	private int driverId;
 	
-	public Ride(String departureLocation, String arrivalLocation, 
+	public Ride(int rideId, String departureLocation, String arrivalLocation, 
 			String departureTime, String arrivalTime, int size, int driverId) {
+		this.id = rideId;
 		this.arrivalLocation = arrivalLocation;
 		this.departureLocation = departureLocation;
 		this.arrivalTime = arrivalTime;
