@@ -36,7 +36,7 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     	List<Ride> rides = rideDao.getAllRides();
     	for (int i = 0; i < rides.size(); i++) {
     		Ride ride = rides.get(i);
-    		System.out.println(ride.getDepartureLocation()+ ride.getArrivalLocation()+ ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getDriverId());
+    		System.out.println(ride.getID() + ride.getDepartureLocation()+ ride.getArrivalLocation()+ ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getDriverId());
     	}
     	
     	System.out.println(" ");
