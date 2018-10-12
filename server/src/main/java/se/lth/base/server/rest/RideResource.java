@@ -48,6 +48,16 @@ public class RideResource {
     	return rideDao.getRides(userId);
     }
     
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @PermitAll
+    @Path("{rideId}/{userId}")
+    public boolean joinRide(@PathParam("rideId") int rideId, @PathParam("userId") int userId) {
+    	return rideDao.addUserToRide(rideId, userId);
+    }
+    
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Path ("/{aLocation}/{dLocation}/{dTime}/{aTime}")

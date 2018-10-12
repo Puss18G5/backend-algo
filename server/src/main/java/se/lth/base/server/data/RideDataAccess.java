@@ -68,11 +68,41 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 * @param userId
 	 * @return all rides connected to one user id, i.e. where the specific user is either a passenger or driver
 	 *
+	 *
+	 * TODO only gets rides where the user is a driver
+	 * DOESNT WORK COMPLETELY 
 	 */
-	public List<Ride> getRides(int userId){
-		return query("SELECT * FROM ride_passengers JOIN rides ON ride_passengers.user_id = rides.driver_id JOIN locations ON rides.departure_location = locations.location_name WHERE user_id = ?", userId);
+	public List<Ride> getRides(int userId) {
+		return query("SELECT * FROM rides JOIN ride_passengers ON rides.driver_id = ride_passengers.user_id WHERE user_id = ?", userId);
 	}
 	
+	
+	/**
+	 * 
+	 * @param rideId
+	 * @return true if seats are available, false otherwise
+	 */
+	public boolean checkIfEmptySeats(int rideId) {
+		Ride ride = queryFirst("SELECT * FROM rides WHERE ride_id = ?", rideId);
+		return ride.getCarSize() > 0;
+	}
+	
+	/**
+	 * 
+	 * adds user to a ride as a passenger
+	 * @param rideId
+	 * @param userId
+	 * 
+	 * TODO Needs to check if user isnt already booked that time period
+	 */
+	public boolean addUserToRide(int rideId, int userId) {
+		
+		// Decrements nbr_seats by 1
+		execute("UPDATE rides SET nbr_seats = nbr_seats - 1 WHERE ride_id = ?", rideId);
+		
+		// Inserts passenger to ride_passengers table
+		return execute("INSERT INTO ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId) > 0;	
+	}
 
 	/**
 	 * 

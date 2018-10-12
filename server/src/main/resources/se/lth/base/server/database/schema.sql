@@ -121,9 +121,7 @@ VALUES           ('2018-01-01 12:00:00', '2018-01-01 15:00:00', 4, 1, 'Helsingbo
                  ('2018-01-03 12:00:00', '2018-01-01 13:00:00', 4, 1, 'Malmö', 'Helsingborg');
 
 INSERT INTO ride_passengers(ride_id, user_id)
-VALUES                      (1, 2),
-                            (2, 1),
-                            (3, 2);
+VALUES                      (2, 1);
 
 -- Example table containing some data per user, you are expected to remove this table in your project.
 CREATE TABLE foo(
