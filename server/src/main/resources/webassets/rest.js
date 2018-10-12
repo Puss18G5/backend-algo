@@ -32,7 +32,7 @@ base.rest = (function() {
         Object.assign(this, json);
     }
 
-    var Bool = function (json) {
+    var boolean = function (json) {
         Object.assign(this, json);
     }
 
@@ -155,6 +155,14 @@ base.rest = (function() {
         getUserRides: function(userId) {
             return baseFetch('rest/ride/user/' + userId)
             .then(response => response.json()).then(rides => rides.map(ride => new Ride(ride)));
+        },
+        joinRide: function(rideId) {
+            var obj = {rideId};
+            return baseFetch('rest/ride', {
+                method: 'POST',
+                body: JSON.stringify(obj),
+                headers: jsonHeader
+            }).then(response => response.json()).then(b => new boolean(b));
         }
     };
 })();

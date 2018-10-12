@@ -51,9 +51,8 @@ public class RideResource {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @PermitAll
-    @Path("{rideId}/{userId}")
-    public boolean joinRide(@PathParam("rideId") int rideId, @PathParam("userId") int userId) {
+    @Path("join")
+    public boolean joinRide(int rideId, int userId) z{
     	return rideDao.addUserToRide(rideId, userId);
     }
     
