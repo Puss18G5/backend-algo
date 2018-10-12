@@ -16,7 +16,7 @@ CREATE TABLE user_role(role_id TINYINT,
 CREATE TABLE users(user_id INT AUTO_INCREMENT NOT NULL,
                    role_id TINYINT,
                    username VARCHAR_IGNORECASE NOT NULL UNIQUE, -- username should be unique
-                   email VARCHAR NOT NULL, -- should be NOT NULL, change later
+                   email VARCHAR NOT NULL UNIQUE, -- should be NOT NULL, change later
                    salt BIGINT NOT NULL,
                    password_hash UUID NOT NULL,
                    failed_logins INT, -- counter for failed logins
@@ -60,8 +60,8 @@ INSERT INTO user_role(role_id, role)
 VALUES               (1, 'ADMIN'), (2, 'USER');
 
 INSERT INTO users(role_id, username, email, salt, password_hash)
-VALUES            (1, 'Admin', 'adminmail', -2883142073796788660, '8dc0e2ab-4bf1-7671-c0c4-d22ffb55ee59'),
-                  (2, 'Test', 'testmail', 5336889820313124494, '144141f3-c868-85e8-0243-805ca28cdabd');
+VALUES            (1, 'Admin', 'admin@admin.com', -2883142073796788660, '8dc0e2ab-4bf1-7671-c0c4-d22ffb55ee59'),
+                  (2, 'Test', 'test@test.com', 5336889820313124494, '144141f3-c868-85e8-0243-805ca28cdabd');
 
 INSERT INTO locations(location_name, latitude, longitude)
 VALUES               ('Stockholm', 59.329323, 18.068581),

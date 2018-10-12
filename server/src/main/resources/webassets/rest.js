@@ -32,6 +32,10 @@ base.rest = (function() {
         Object.assign(this, json);
     }
 
+    var Bool = function (json) {
+        Object.assign(this, json);
+    }
+
 
     var objOrError = function(json, cons) {
         if (json.error) {
@@ -132,8 +136,8 @@ base.rest = (function() {
             return baseFetch('rest/location/all')
             .then(response => response.json()).then(locations => locations.map(location => new Location(location)));
         },
-        createRide: function(departureLocation, arrivalLocation, departureTime, arrivalTime, size, driverId) {
-            var ride = {departureLocation, arrivalLocation, departureTime, arrivalTime, size, driverId};
+        createRide: function(departureLocation, arrivalLocation, departureTime, arrivalTime, carSize, driverId) {
+            var ride = {departureLocation, arrivalLocation, departureTime, arrivalTime, carSize, driverId};
             return baseFetch('rest/ride', {
                 method: 'POST',
                 body: JSON.stringify(ride),

@@ -86,9 +86,9 @@ public class Credentials {
         long s1 = generateSalt();
         long s2 = generateSalt();
         System.out.println(s1);
-        System.out.println(new Credentials("Admin", "password", "adminmail", Role.ADMIN).generatePasswordHash(s1));
+        System.out.println(new Credentials("Admin", "password", "admin@admin.com", Role.ADMIN).generatePasswordHash(s1));
 
         System.out.println(s2);
-        System.out.println(new Credentials("Test", "password", "testmail", Role.USER).generatePasswordHash(s2));
+        System.out.println(new Credentials("Test", "password", "test@test.com", Role.USER).generatePasswordHash(s2));
     }
 }
