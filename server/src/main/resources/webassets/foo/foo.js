@@ -12,56 +12,58 @@ var base = base || {};
 base.fooController = function() {
 
     // List of all foo data, will be useful to have when update functionality is added.
-    var model = [
-        {
-        role: 'Passenger',
-        dep_loc: 'Malmö',
-        arr_loc: 'Lund',
-        dep_time: '11:03',
-        arr_time: '12:03',
+    var model = [];
+        // {
+        // role: 'Passenger',
+        // dep_loc: 'Malmö',
+        // arr_loc: 'Lund',
+        // dep_time: '11:03',
+        // arr_time: '12:03',
+        //
+        // },
+        // {
+        // role: 'Passenger',
+        // dep_loc: 'Lund',
+        // arr_loc: 'Malmö',
+        // dep_time: '15:04',
+        // arr_time: '16:07',
+        //
+        // },
+        // {
+        // role: 'Driver',
+        // dep_loc: 'Göteborg',
+        // arr_loc: 'Stockholm',
+        // dep_time: '15:04',
+        // arr_time: '19:07',
+        //
+        // }];
 
-        },
-        {
-        role: 'Passenger',
-        dep_loc: 'Lund',
-        arr_loc: 'Malmö',
-        dep_time: '15:04',
-        arr_time: '16:07',
 
-        },
-        {
-        role: 'Driver',
-        dep_loc: 'Göteborg',
-        arr_loc: 'Stockholm',
-        dep_time: '15:04',
-        arr_time: '19:07',
-
-        }];
-
-        var modal = [
-            {
-            name: 'Anders',
-            role: 'Driver',
-            },
-            {
-            name: 'Kalle',
-            role: 'Passenger',
-            },
-            {
-            name: 'Bosse',
-            role: 'Passenger',
-            },
-            {
-            name: 'Pelle',
-            role: 'Passenger',
-            }
-          ];
+        var modal = [];
+        // var modal = [
+        //     {
+        //     name: 'Anders',
+        //     role: 'Driver',
+        //     },
+        //     {
+        //     name: 'Kalle',
+        //     role: 'Passenger',
+        //     },
+        //     {
+        //     name: 'Bosse',
+        //     role: 'Passenger',
+        //     },
+        //     {
+        //     name: 'Pelle',
+        //     role: 'Passenger',
+        //     }
+        //   ];
 
     var view = {
         // Creates HTML for each foo in model
         render: function() {
             model.forEach(ride => view.renderRow(ride));
-            modal.forEach(function(value, i){
+            model.forEach(function(value, i){
               view.modalModel(value, i);
 
 
@@ -80,12 +82,33 @@ base.fooController = function() {
     var tr = document.createElement("tr");
     tr.id="test";
 
-    for (var i = 0 ; i < elems.length; i++) {
-        var td = document.createElement("td");
-        var txt = document.createTextNode(elems[i]);
-        td.appendChild(txt);
-        tr.appendChild(td);
-    }
+    var td1 = document.createElement("td");
+    var txt = document.createTextNode(ride.id);
+    td1.appendChild(txt);
+    tr.appendChild(td1);
+
+    var td2 = document.createElement("td");
+    var txt = document.createTextNode(ride.departureLocation.name);
+    td2.appendChild(txt);
+    tr.appendChild(td2);
+
+    var td3 = document.createElement("td");
+    var txt = document.createTextNode(ride.arrivalLocation.name);
+    td3.appendChild(txt);
+    tr.appendChild(td3);
+
+    var td4 = document.createElement("td");
+    var txt = document.createTextNode(ride.arrivalTime);
+    td4.appendChild(txt);
+    tr.appendChild(td4);
+
+    var td5 = document.createElement("td");
+    var txt = document.createTextNode(ride.departureTime);
+    td5.appendChild(txt);
+    tr.appendChild(td5);
+
+
+
     var isDriver = elems[0] === 'Driver';
 
     if(isDriver) {
@@ -112,17 +135,17 @@ base.fooController = function() {
 },
 
 modalModel: function(tableElems, index){
+    var elems = tableElems.allTravellers;
     var tbody = document.getElementById('modal-table');
     var elems = Object.values(tableElems);
     var tr = document.createElement("tr");
 
-    for (var i = 0 ; i < elems.length; i++) {
-        var td = document.createElement("td");
-        var txt = document.createTextNode(elems[i]);
-        td.appendChild(txt);
-        tr.appendChild(td);
-    }
-      console.log(index);
+    var td = document.createElement("td");
+    var txt = document.createTextNode(elems[i]);
+    td.appendChild(txt);
+    tr.appendChild(td);
+    
+    console.log(index);
 
     base.rest.getUser().then(function(user) {
       for(var k = 0; k < index + 1; k++){
@@ -221,6 +244,15 @@ createBtn: function (btnString) {
 
     var controller = {
         load: function() {
+          base.rest.getRides().then(function(rides) {
+            model = rides;
+            console.log(model);
+            return model;
+
+          })
+
+
+
             // Adds callback to the form.
             document.getElementById('foo-form').onsubmit = function(event) {
                 event.preventDefault();
