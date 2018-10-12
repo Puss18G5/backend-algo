@@ -52,9 +52,9 @@ public class RideResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @PermitAll
-    @Path("{rideId}/{userId}")
-    public boolean joinRide(@PathParam("rideId") int rideId, @PathParam("userId") int userId) {
-    	return rideDao.addUserToRide(rideId, userId);
+    @Path("{rideId}")
+    public Ride joinRide(@PathParam("rideId") int rideId) {
+    	return rideDao.addUserToRide(rideId, user.getId());
     }
     
     
