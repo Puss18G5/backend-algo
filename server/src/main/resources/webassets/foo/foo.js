@@ -13,30 +13,6 @@ base.fooController = function() {
 
     // List of all foo data, will be useful to have when update functionality is added.
     var model = [];
-        // {
-        // role: 'Passenger',
-        // dep_loc: 'Malmö',
-        // arr_loc: 'Lund',
-        // dep_time: '11:03',
-        // arr_time: '12:03',
-
-        // },
-        // {
-        // role: 'Passenger',
-        // dep_loc: 'Lund',
-        // arr_loc: 'Malmö',
-        // dep_time: '15:04',
-        // arr_time: '16:07',
-
-        // },
-        // {
-        // role: 'Driver',
-        // dep_loc: 'Göteborg',
-        // arr_loc: 'Stockholm',
-        // dep_time: '15:04',
-        // arr_time: '19:07',
-
-        // }];
 
         var modal = [
             {
