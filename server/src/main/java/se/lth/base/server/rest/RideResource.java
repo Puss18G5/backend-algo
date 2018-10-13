@@ -57,6 +57,10 @@ public class RideResource {
     @PermitAll
     @Path("{rideId}")
     public Ride joinRide(@PathParam("rideId") int rideId) {
+    	if(!rideDao.checkIfEmptySeats(rideId)) {
+    		throw new WebApplicationException("No empty seats on this ride", Response.Status.BAD_REQUEST);
+    	}
+    	
     	return rideDao.addUserToRide(rideId, user.getId());
     }
     
