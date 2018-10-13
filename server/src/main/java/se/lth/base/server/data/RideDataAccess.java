@@ -97,6 +97,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 		return ride.getCarSize() > 0;
 	}
 	
+	
 	/**
 	 * 
 	 * adds user to a ride as a passenger
