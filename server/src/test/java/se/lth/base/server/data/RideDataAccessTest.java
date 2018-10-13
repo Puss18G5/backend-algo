@@ -3,6 +3,7 @@ package se.lth.base.server.data;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     private final UserDataAccess userDao = new UserDataAccess(Config.instance().getDatabaseDriver());
 
     @Test
-    public void testAddRide() {
+    public void testAddRide() throws ParseException {
     	
     	rideDao.createRide("Helsingborg", "Lund", "2018-01-07 12:00:00", "2018-01-07 13:00:00", 4, 1);
 
