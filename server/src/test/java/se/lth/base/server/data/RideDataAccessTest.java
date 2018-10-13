@@ -22,6 +22,7 @@ public class RideDataAccessTest extends BaseDataAccessTest {
 	private final RideDataAccess rideDao = new RideDataAccess(Config.instance().getDatabaseDriver());
     private final LocationDataAccess locationDao = new LocationDataAccess(Config.instance().getDatabaseDriver());
     private final UserDataAccess userDao = new UserDataAccess(Config.instance().getDatabaseDriver());
+    private final RidePersonDataAccess ridePersonDao = new RidePersonDataAccess(Config.instance().getDatabaseDriver());
 
     @Test
     public void testAddRide() throws ParseException {
@@ -38,7 +39,7 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     	System.out.println(rideDao.checkIfEmptySeats(4));
     	
     	
-    	rideDao.addUserToRide(4, 1);
+    	//rideDao.addUserToRide(4, 2);
     	
     	/**
     	System.out.println(" ");
@@ -52,6 +53,9 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     	*/
 		
     	rides = rideDao.getAllRides();
+    	List<RidePerson> ridesp = ridePersonDao.getRides(2);
+    	System.out.println("testing " + ridesp.size());
+    	
     	for (int i = 0; i < rides.size(); i++) {
     		Ride ride = rides.get(i);
     		System.out.println(ride.getID() + " " + ride.getCarSize());

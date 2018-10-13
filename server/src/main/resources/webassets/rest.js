@@ -26,15 +26,15 @@ base.rest = (function() {
     var Location = function(json) {
         Object.assign(this, json);
         this.json = json;
-    }
+    };
 
     var Ride = function(json) {
         Object.assign(this, json);
-    }
+    };
 
-    var boolean = function (json) {
+    var RidePerson = function(json) {
         Object.assign(this, json);
-    }
+    };
 
 
     var objOrError = function(json, cons) {
@@ -166,6 +166,22 @@ base.rest = (function() {
         },
         deleteRide: function(rideId) {
             return baseFetch('/rest/ride/delete/'+rideId, {method: 'DELETE'});
+        },
+        leaveRide: function(rideId) {
+            return baseFetch('/rest/ride/leave/'+rideId, {method: 'DELETE'});
+        },
+        getPassengers: function(rideId) {
+            return baseFetch('rest/rideperson/' + rideId)
+            .then(response => response.json()).then(rps => rps.map(rp => new RidePerson(rp)));
+        },
+        getRidePersonRides: function() {
+            return baseFetch('rest/rideperson/all/')
+            .then(response => response.json()).then(rps => rps.map(rp => new RidePerson(rp)));
+        },
+        getSpecificUser: function (userId) {
+            return baseFetch('/rest/user/' + userId)
+                .then(response => response.json())
+                .then(u => new User(u));
         }
     };
 })();

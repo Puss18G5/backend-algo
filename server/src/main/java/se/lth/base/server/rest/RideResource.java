@@ -88,7 +88,7 @@ public class RideResource {
         }
     }
     
-    @Path("{rideId}")
+    @Path("leave/{rideId}")
     @DELETE
     public void leaveRide(@PathParam("rideId") int rideId) {
         rideDao.removeUserFromRide(rideId, user.getId());

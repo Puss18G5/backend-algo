@@ -36,7 +36,7 @@ base.joinRideController = function() {
             tr.appendChild(td5);
 
 
-            var secondlasttd = view.createDropDown();
+            var secondlasttd = view.createDropDown(ride);
 
             tr.appendChild(secondlasttd);
 
@@ -46,7 +46,7 @@ base.joinRideController = function() {
 
             tbody.appendChild(tr);
         },
-        createDropDown: function () {
+        createDropDown: function (ride) {
             var secondlasttd = document.createElement("td");
             var dropdowndiv = document.createElement("div");
             dropdowndiv.className ="dropdown";
@@ -61,14 +61,16 @@ base.joinRideController = function() {
             var menudiv = document.createElement("div");
             menudiv.className= "dropdown-menu";
 
-            var users = ['Anders (Driver)', 'Gertrud', 'Göran'];
-
-            for(var i = 0; i < users.length ; i++) {
-                var h6 = document.createElement("h6");
-                h6.className = "dropdown-item";
-                h6.textContent = users[i];
-                menudiv.appendChild(h6);
-            }
+            base.rest.getPassengers(ride.id).then(function(passengers) {
+                passengers.forEach(function(value) {
+                    var h6 = document.createElement("h6");
+                    h6.className = "dropdown-item";
+                    base.rest.getSpecificUser(value.userId).then(function(val) {
+                        h6.textContent = val.username + ' (' + value.role + ')'; 
+                    });
+                    menudiv.appendChild(h6);
+                });
+            });  
 
             dropdowndiv.appendChild(menudiv);
             secondlasttd.appendChild(dropdowndiv);
@@ -114,6 +116,18 @@ base.joinRideController = function() {
                 console.log(rides);
                 matchedRides = rides;
                 return matchedRides;
+            });
+
+            base.rest.getPassengers(1).then(function(rp) {
+                console.log("Passengers before leave");
+                console.log(rp);
+            }).then(function() {
+                base.rest.leaveRide(1).then(function() {
+                    base.rest.getPassengers(1).then(function(rp) {
+                        console.log("Passengers after leave:");
+                        console.log(rp);
+                    })
+                })
             });
 
             document.getElementById("search-rides").onclick = function (event){
