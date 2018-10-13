@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import se.lth.base.server.Config;
+
 public class Ride {
 	private String departureLocation;
 	private String arrivalLocation;
@@ -15,7 +17,18 @@ public class Ride {
 	private int carSize;
 	private int id;
 	private int driverId;
+	private final LocationDataAccess locationDao = new LocationDataAccess(Config.instance().getDatabaseDriver());
 	
+	/**
+	 * Constructor for rides made from front end
+	 * @param rideId
+	 * @param departureLocation
+	 * @param arrivalLocation
+	 * @param departureTime
+	 * @param arrivalTime
+	 * @param size
+	 * @param driverId
+	 */
 	public Ride(int rideId, String departureLocation, String arrivalLocation, 
 			String departureTime, String arrivalTime, int size, int driverId) {
 		this.id = rideId;
@@ -28,6 +41,13 @@ public class Ride {
 		this.driverId = driverId;
 	}
 	
+	/**
+	 * Constructor for rides made for Ranker
+	 * @param departureLocation
+	 * @param arrivalLocation
+	 * @param departureTime
+	 * @param arrivalTime
+	 */
 	public Ride(String departureLocation, String arrivalLocation, 
 			String departureTime, String arrivalTime) {
 		this.arrivalLocation = arrivalLocation;
@@ -63,6 +83,14 @@ public class Ride {
 	
 	public String getDepartureLocation() {
 		return departureLocation;
+	}
+	
+	public Location getArrivalLocationAsLocation() {
+		return locationDao.getLocationObject(arrivalLocation);
+	}
+	
+	public Location getDepartureLocationAsLocation() {
+		return locationDao.getLocationObject(departureLocation);
 	}
 	
 	public String getArrivalTime() {

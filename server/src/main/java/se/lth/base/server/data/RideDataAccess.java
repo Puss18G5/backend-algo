@@ -37,7 +37,6 @@ public class RideDataAccess extends DataAccess<Ride> {
 
 	public RideDataAccess(String driverUrl) {
 		super(driverUrl, new RideMapper());
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -144,7 +143,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 	}
 	
 	/**
-	 * 
+	 * Sorts out the relevant rides for the user based on time and arrival location
 	 * @param aLocation
 	 * @param dLocation
 	 * @param arrivalTime
@@ -154,10 +153,11 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 */
 	//THIS ONE WILL NOT WORK YET SINCE CHANGE IS NOT MADE IN RANKER YET
 	public List<Ride> getRelevantRides(String aLocation, String dLocation,
-    		String arrivalTime, String departureTime) throws ParseException {
+    		String arrivalTime, String departureTime, int userId) throws ParseException {
+		
 		Ride userRide = new Ride(dLocation, aLocation, departureTime, arrivalTime);
 		List<Ride> allRides = getAllRides();
-		Ranker ranker = new Ranker(allRides, userRide);
+		Ranker ranker = new Ranker(allRides, userRide, userId);
 		return ranker.rank();
 	}
 
