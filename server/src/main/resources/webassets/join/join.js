@@ -107,11 +107,9 @@ base.joinRideController = function() {
             lasttd.style.borderTop = 'none';
 
             btn.onclick = function(event) {
-                base.rest.getUser().then(function(user) {
                     // if(base.rest.isBusy(user.id, from, to) alert('You are already scheduled in tnis time interval')
                     // else joinRide(user.id, ride.id); alert('Ride successfully joined');
-                    base.rest.joinRide(ride.id, user.id);
-                });
+                    base.rest.joinRide(ride.id);
                 alert('Ride successfully joined');
             };
 

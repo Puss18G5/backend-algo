@@ -158,11 +158,11 @@ base.rest = (function() {
         },
         joinRide: function(rideId) {
             var obj = {rideId};
-            return baseFetch('rest/ride', {
+            return baseFetch('rest/ride/' + rideId, {
                 method: 'POST',
                 body: JSON.stringify(obj),
                 headers: jsonHeader
-            }).then(response => response.json()).then(b => new boolean(b));
+            }).then(response => response.json()).then(r => new Ride(r));
         }
     };
 })();
