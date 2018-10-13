@@ -111,8 +111,13 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 * @param userId
 	 * 
 	 * TODO Needs to check if user isn't already booked that time period
+	 * @throws ParseException 
 	 */
-	public Ride addUserToRide(int rideId, int userId) {
+	public Ride addUserToRide(int rideId, int userId) throws ParseException {
+		//Checks if user is booked during that time period
+		Ride ride = queryFirst("SELECT * FROM rides WHERE ride_id = ?", rideId);
+		Date rideArrivalTime = ride.arrivalTimeAsDate();
+		Date rideDepartureTime = ride.departureTimeAsDate();
 		
 		// Decrements nbr_seats by 1
 		execute("UPDATE rides SET nbr_seats = nbr_seats - 1 WHERE ride_id = ?", rideId);
