@@ -180,7 +180,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 		User passenger = userDao.getUser(userId);
 		ride.removeTraveler(passenger);
 		
-		return getRide(rideId);
+		return ride;
 	}
 	
 	/**
