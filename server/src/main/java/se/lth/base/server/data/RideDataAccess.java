@@ -22,6 +22,7 @@ import se.lth.base.server.database.Mapper;
 public class RideDataAccess extends DataAccess<Ride> {
 
 	private final LocationDataAccess locationDao = new LocationDataAccess(Config.instance().getDatabaseDriver());
+	private final UserDataAccess userDao = new UserDataAccess(Config.instance().getDatabaseDriver());
 	
 	private static class RideMapper implements Mapper<Ride> {
 		@Override
@@ -120,11 +121,14 @@ public class RideDataAccess extends DataAccess<Ride> {
 		 
 		// Decrements nbr_seats by 1
 		execute("UPDATE rides SET nbr_seats = nbr_seats - 1 WHERE ride_id = ?", rideId);
-				
 		// Inserts passenger to ride_passengers table
 		execute("INSERT INTO ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId);
-¨
-		return getRide(rideId);
+		
+		Ride ride = getRide(rideId);
+		User passenger = userDao.getUser(userId);
+		ride.addTraveler(passenger);
+		
+		return ride;
 	}
 
 	/**
@@ -171,6 +175,10 @@ public class RideDataAccess extends DataAccess<Ride> {
 		
 		// Removes passenger to ride_passengers table
 		execute("DELETE FROM ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId);
+		
+		Ride ride = getRide(rideId);
+		User passenger = userDao.getUser(userId);
+		ride.removeTraveler(passenger);
 		
 		return getRide(rideId);
 	}
