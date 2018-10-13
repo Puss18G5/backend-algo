@@ -105,6 +105,10 @@ public class RideDataAccess extends DataAccess<Ride> {
 		return ride.getCarSize() > 0;
 	}
 	
+	public List<Ride> getRidesAsDriver(int userId){
+		return query("SELECT * FROM rides WHERE driver_id = ?", userId);
+	}
+	
 	
 	/**
 	 * 
