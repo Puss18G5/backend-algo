@@ -44,7 +44,7 @@ CREATE TABLE ride_passengers (ride_id INT AUTO_INCREMENT NOT NULL,
                               user_id INT AUTO_INCREMENT NOT NULL,
                               PRIMARY KEY (ride_id, user_id),
                               FOREIGN KEY (ride_id) REFERENCES rides (ride_id) ON DELETE CASCADE,
-                              FOREIGN KEY (user_id) REFERENCES users (user_id)) ON DELETE CASCADE;
+                              FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE);
 
 
 -- Sessions are indexed by large random numbers instead of a sequence of integers, because they could otherwise

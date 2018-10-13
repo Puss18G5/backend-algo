@@ -115,11 +115,9 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 */
 	public Ride addUserToRide(int rideId, int userId) {
 		
-		// Decrements nbr_seats by 1
-		execute("UPDATE rides SET nbr_seats = nbr_seats - 1 WHERE ride_id = ?", rideId);
-		
 		// Inserts passenger to ride_passengers table
-		execute("INSERT INTO ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId);
+		insert("INSERT INTO ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId);
+		execute("UPDATE rides SET nbr_seats = nbr_seats - 1 WHERE ride_id = ?", rideId);
 		
 		return getRide(rideId);
 	}
