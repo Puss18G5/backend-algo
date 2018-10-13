@@ -18,17 +18,17 @@ import java.util.Date;
 
 public class RideTest {
 
-	private Ride ride = new Ride(new Location("Stockholm", 59.3293, 18.0686), new Location("Malmö", 55.6050, 13.0038),
+	private Ride ride = new Ride(0, "Stockholm", "Malmö",
 			"2018/10/23 19:00:00", "2018/10/23 20:00:00", 3, 2);
 	
 	@Test
 	public void getArrivalLocation() {
-		assertEquals(ride.getArrivalLocation().getLocation(), "Malmö");
+		assertEquals(ride.getArrivalLocation(), "Malmö");
 	}
 	
 	@Test
 	public void getDepartureLocation() {
-		assertEquals(ride.getDepartureLocation().getLocation(), "Stockholm");
+		assertEquals(ride.getDepartureLocation(), "Stockholm");
 	}
 	
 	@Test

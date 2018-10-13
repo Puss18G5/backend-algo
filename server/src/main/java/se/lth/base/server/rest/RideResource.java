@@ -11,10 +11,12 @@ import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import se.lth.base.server.Config;
 import se.lth.base.server.data.Ride;
 import se.lth.base.server.data.RideDataAccess;
+import se.lth.base.server.data.Role;
 import se.lth.base.server.data.User;
 
 @Path("ride")
@@ -69,4 +71,20 @@ public class RideResource {
     	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime);
     }
     
+    
+    @Path("{rideId}")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @DELETE
+    public void deleteRide(@PathParam("id") int rideId) {
+        if (!rideDao.deleteRide(rideId)) {
+            throw new WebApplicationException("Ride not found", Response.Status.NOT_FOUND);
+        }
+    }
+    
+    @Path("{rideId}/{userId}")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @DELETE
+    public void leaveRide(@PathParam("rideID") int rideId, @PathParam("userID") int userId) {
+        rideDao.removeUserFromRide(rideId, userId);
+    }
 }

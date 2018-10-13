@@ -86,6 +86,14 @@ public class RideDataAccess extends DataAccess<Ride> {
 		return query("SELECT * FROM rides JOIN ride_passengers ON rides.driver_id = ride_passengers.user_id WHERE user_id = ?", userId);
 	}
 	
+	/**
+	 * 
+	 * @param rideId
+	 * @return true if ride is deleted, false otherwise
+	 */
+	public boolean deleteRide(int rideId) {
+        return execute("DELETE FROM rides WHERE ride_id = ?", rideId) > 0;
+    }
 	
 	/**
 	 * 
@@ -103,7 +111,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 * @param rideId
 	 * @param userId
 	 * 
-	 * TODO Needs to check if user isnt already booked that time period
+	 * TODO Needs to check if user isn't already booked that time period
 	 */
 	public Ride addUserToRide(int rideId, int userId) {
 		
@@ -118,6 +126,24 @@ public class RideDataAccess extends DataAccess<Ride> {
 
 	/**
 	 * 
+	 * removes user from a ride as a passenger
+	 * @param rideId
+	 * @param userId
+	 * 
+	 */
+	public Ride removeUserFromRide(int rideId, int userId) {
+		
+		// Increments nbr_seats by 1
+		execute("UPDATE rides SET nbr_seats = nbr_seats + 1 WHERE ride_id = ?", rideId);
+		
+		// Removes passenger to ride_passengers table
+		execute("DELETE FROM ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId);
+		
+		return getRide(rideId);
+	}
+	
+	/**
+	 * 
 	 * @param aLocation
 	 * @param dLocation
 	 * @param arrivalTime
@@ -125,11 +151,10 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 * @return
 	 * @throws ParseException
 	 */
+	//THIS ONE WILL NOT WORK YET SINCE CHANGE IS NOT MADE IN RANKER YET
 	public List<Ride> getRelevantRides(String aLocation, String dLocation,
     		String arrivalTime, String departureTime) throws ParseException {
-		Location arrivalLocation = locationDao.getLocationObject(aLocation);
-		Location departureLocation = locationDao.getLocationObject(dLocation);
-		Ride userRide = new Ride(departureLocation, arrivalLocation, departureTime, arrivalTime);
+		Ride userRide = new Ride(dLocation, aLocation, departureTime, arrivalTime);
 		List<Ride> allRides = getAllRides();
 		Ranker ranker = new Ranker(allRides, userRide);
 		return ranker.rank();
