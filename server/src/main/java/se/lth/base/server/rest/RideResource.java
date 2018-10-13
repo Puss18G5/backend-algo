@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import se.lth.base.server.Config;
+import se.lth.base.server.data.LocationDataAccess;
 import se.lth.base.server.data.Ride;
 import se.lth.base.server.data.RideDataAccess;
 import se.lth.base.server.data.Role;
@@ -62,13 +63,14 @@ public class RideResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Path ("/{aLocation}/{dLocation}/{dTime}/{aTime}")
+    @Path ("/{aLocation}/{dLocation}/{dTime}/{aTime}/{userId}")
     public List<Ride> searchRelevantRides(	@PathParam("aLocation") String arrivalLocation,
     										@PathParam("dLocation") String departureLocation,
     										@PathParam("dTime") String departureTime,
-    										@PathParam("aTime") String arrivalTime) throws ParseException{
-
-    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime);
+    										@PathParam("aTime") String arrivalTime,
+    										@PathParam("userId") int userId) throws ParseException{
+    	
+    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime, userId);
     }
     
     
