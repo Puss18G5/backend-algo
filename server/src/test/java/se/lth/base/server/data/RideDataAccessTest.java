@@ -25,7 +25,7 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     @Test
     public void testAddRide() {
     	
-    	rideDao.createRide("Helsingborg", "Lund", "2018-01-07 12:00:00", "2018-01-07 13:00:00", 4, 1);
+    	rideDao.createRide("Helsingborg", "Lund", "2018-01-07 12:00:00", "2018-01-07 13:00:00", 1, 1);
 
     	List<Ride> rides = rideDao.getAllRides();
     	for (int i = 0; i < rides.size(); i++) {
@@ -33,10 +33,12 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     		System.out.println(ride.getID() + " " + ride.getCarSize());
     		//System.out.println(ride.getID() + ride.getDepartureLocation()+ ride.getArrivalLocation()+ ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getDriverId());
     	}
+    	System.out.println(rideDao.checkIfEmptySeats(4));
     	
-    	rideDao.addUserToRide(4, 2);
+    	//rideDao.addUserToRide(4, 2);
     	
-    	rideDao.checkIfEmptySeats(4);
+    	
+    	
     	
     	System.out.println(" ");
     	List<Ride> userRides = rideDao.getRides(1);
