@@ -56,10 +56,14 @@ public class RideResource {
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @PermitAll
     @Path("{rideId}")
-    public Ride joinRide(@PathParam("rideId") int rideId) {
+    public Ride joinRide(@PathParam("rideId") int rideId) throws ParseException {
     	if(!rideDao.checkIfEmptySeats(rideId)) {
     		throw new WebApplicationException("No empty seats on this ride", Response.Status.BAD_REQUEST);
-    	}    	
+    	}
+    	if(rideDao.userIsBusy(rideId, user.getId())) {
+    		throw new WebApplicationException("User was busy during this time", Response.Status.BAD_REQUEST);
+    	}
+
     	return rideDao.addUserToRide(rideId, user.getId());
     }
     
