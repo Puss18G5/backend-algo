@@ -89,6 +89,7 @@ base.joinRideController = function() {
                     // else joinRide(user.id, ride.id); alert('Ride successfully joined');
                     base.rest.joinRide(ride.id);
                 alert('Ride successfully joined');
+                btn.disabled = true;
             };
 
             lasttd.appendChild(btn);

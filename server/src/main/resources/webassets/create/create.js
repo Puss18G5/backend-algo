@@ -68,7 +68,7 @@ base.createRideController = function() {
             var toOkay = to.match(locationRegex);
     
             return isNaN(seats) || seats <= 0 || !fromOkay || !toOkay ||
-            arr_date.length > 16 || dep_date.length > 16
+            arr_date.length > 16 || dep_date.length > 16 || to === from;
         },
         getTodaysDate: function () {
             var today = new Date();

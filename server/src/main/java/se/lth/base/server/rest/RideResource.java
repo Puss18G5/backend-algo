@@ -74,14 +74,13 @@ public class RideResource {
     public List<Ride> searchRelevantRides(	@PathParam("aLocation") String arrivalLocation,
     										@PathParam("dLocation") String departureLocation,
     										@PathParam("dTime") String departureTime,
-    										@PathParam("aTime") String arrivalTime,
-    										@PathParam("userId") int userId) throws ParseException{
+    										@PathParam("aTime") String arrivalTime) throws ParseException{
     	
-    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime, userId);
+    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime, user.getId());
     }
     
     
-    @Path("{rideId}")
+    @Path("delete/{rideId}")
     @DELETE
     public void deleteRide(@PathParam("rideId") int rideId) {
         if (!rideDao.deleteRide(rideId)) {
@@ -89,10 +88,9 @@ public class RideResource {
         }
     }
     
-    @Path("{rideId}/{userId}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("{rideId}")
     @DELETE
-    public void leaveRide(@PathParam("rideID") int rideId, @PathParam("userID") int userId) {
-        rideDao.removeUserFromRide(rideId, userId);
+    public void leaveRide(@PathParam("rideId") int rideId) {
+        rideDao.removeUserFromRide(rideId, user.getId());
     }
 }

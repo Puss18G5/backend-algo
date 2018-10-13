@@ -13,6 +13,7 @@ base.fooController = function() {
 
     // List of all foo data, will be useful to have when update functionality is added.
     var model = [];
+    var modal = [];
 
     var view = {
         // Creates HTML for each ride in model
@@ -161,6 +162,12 @@ createBtn: function (btnString) {
                     });
                 }
             });
+
+            base.rest.deleteRide(2).then(function() {
+                base.rest.getRides().then(function(rides) {
+                    console.log(rides);
+                })
+            })
             view.render();
         }
 
