@@ -163,6 +163,9 @@ base.rest = (function() {
                 body: JSON.stringify(obj),
                 headers: jsonHeader
             }).then(response => response.json()).then(r => new Ride(r));
+        },
+        deleteRide: function(rideId) {
+            return baseFetch('/rest/ride/'+rideId, {method: 'DELETE'});
         }
     };
 })();

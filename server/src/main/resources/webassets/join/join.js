@@ -1,28 +1,6 @@
 var base = base || {};
 base.joinRideController = function() {
-    var matchedRides = [
-        // {
-        // dep_loc: 'Malmö',
-        // arr_loc: 'Lund',
-        // dep_time: '2018-09-10 11:03',
-        // arr_time: '2018-09-10 12:03',
-        // seats: 4
-        // },
-        // {
-        // dep_loc: 'Lund',
-        // arr_loc: 'Malmö',
-        // dep_time: '2018-09-10 15:04',
-        // arr_time: '2018-09-10 16:07',
-        // seats: 8
-        // },
-        // {
-        // dep_loc: 'Göteborg',
-        // arr_loc: 'Stockholm',
-        // dep_time: '2018-09-10 15:04',
-        // arr_time: '2018-09-10 19:07',
-        // seats: 4
-        // }
-    ];
+    var matchedRides = [];
 
     var view = {
         render: function () {
