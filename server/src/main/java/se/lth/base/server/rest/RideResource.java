@@ -75,9 +75,8 @@ public class RideResource {
     
     
     @Path("{rideId}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @DELETE
-    public void deleteRide(@PathParam("id") int rideId) {
+    public void deleteRide(@PathParam("rideId") int rideId) {
         if (!rideDao.deleteRide(rideId)) {
             throw new WebApplicationException("Ride not found", Response.Status.NOT_FOUND);
         }

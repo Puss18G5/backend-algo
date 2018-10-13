@@ -14,27 +14,8 @@ base.fooController = function() {
     // List of all foo data, will be useful to have when update functionality is added.
     var model = [];
 
-        var modal = [
-            {
-            name: 'Anders',
-            role: 'Driver',
-            },
-            {
-            name: 'Kalle',
-            role: 'Passenger',
-            },
-            {
-            name: 'Bosse',
-            role: 'Passenger',
-            },
-            {
-            name: 'Pelle',
-            role: 'Passenger',
-            }
-          ];
-
     var view = {
-        // Creates HTML for each foo in model
+        // Creates HTML for each ride in model
         render: function() {
             model.forEach(ride => view.renderRow(ride));
             modal.forEach(function(value, i){
@@ -43,13 +24,6 @@ base.fooController = function() {
 
             });
         },
-
-
-
-
-
-        // Creates HTML for foo parameter and adds it to the parent of the template
-
     renderRow: function(ride) {
     var tbody = document.getElementById('remove-table');
     var elems = Object.values(ride);
@@ -86,7 +60,6 @@ base.fooController = function() {
 
     }
 },
-
 modalModel: function(tableElems, index){
     var tbody = document.getElementById('modal-table');
     var elems = Object.values(tableElems);
@@ -112,7 +85,6 @@ modalModel: function(tableElems, index){
     tr.appendChild(lasttd);
     });
 },
-
 createModalBtn: function (btnString) {
         var secondlasttd = document.createElement("td");
         secondlasttd.id = 'last-td';
@@ -136,9 +108,6 @@ createModalBtn: function (btnString) {
 
         return secondlasttd;
     },
-
-
-
 createInfoBtn: function () {
             var lasttd = document.createElement("td");
             lasttd.id = 'last-td';
@@ -152,8 +121,6 @@ createInfoBtn: function () {
 
             return lasttd;
         },
-
-
 createBtn: function (btnString) {
         var secondlasttd = document.createElement("td");
         secondlasttd.id = 'last-td';
@@ -177,23 +144,7 @@ createBtn: function (btnString) {
 
         return secondlasttd;
     }
-
-/*
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-
-        <td><button id="delete-user" type="button" class="w-100 btn btn-danger" onclick = "removeThisRow(this.parentElement.parentElement)">Delete</button></td>
-
-*/
-
-
-
-    };
-
-
+};
 
     var controller = {
         load: function() {
@@ -210,18 +161,7 @@ createBtn: function (btnString) {
                     });
                 }
             });
-            // Adds callback to the form.
-            document.getElementById('foo-form').onsubmit = function(event) {
-                event.preventDefault();
-                controller.submitFoo();
-                return false;
-            };
-            // Loads all foos from the server through the REST API, see res.js for definition.
-            // It will replace the model with the foos, and then render them through the view.
-            base.rest.getFoos().then(function(foos) {
-                //model = foos;
-                view.render();
-            });
+            view.render();
         }
 
     };
