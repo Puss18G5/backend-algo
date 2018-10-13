@@ -114,6 +114,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 * TODO Needs to check if user isn't already booked that time period
 	 * @throws ParseException 
 	 */
+
 	public Ride addUserToRide(int rideId, int userId) throws ParseException{
 		//Checks if user is booked during that time period
 		 
@@ -122,6 +123,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 				
 		// Inserts passenger to ride_passengers table
 		execute("INSERT INTO ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId);
+¨
 		return getRide(rideId);
 	}
 
