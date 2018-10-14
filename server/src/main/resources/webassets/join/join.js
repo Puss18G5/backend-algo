@@ -5,6 +5,7 @@ base.joinRideController = function() {
     var view = {
         render: function () {
             matchedRides.forEach(ride => view.renderRow(ride));
+            view.createDropDown(matchedRides[Object.keys(matchedRides)[Object.keys(matchedRides).length - 1]]);
         },
         renderRow: function(ride) {
             var tbody = document.getElementById('join-table');
