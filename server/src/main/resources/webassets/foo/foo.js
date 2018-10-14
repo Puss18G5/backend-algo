@@ -13,70 +13,25 @@ base.fooController = function() {
 
     // List of all foo data, will be useful to have when update functionality is added.
     var model = [];
-        // {
-        // role: 'Passenger',
-        // dep_loc: 'Malmö',
-        // arr_loc: 'Lund',
-        // dep_time: '11:03',
-        // arr_time: '12:03',
-        //
-        // },
-        // {
-        // role: 'Passenger',
-        // dep_loc: 'Lund',
-        // arr_loc: 'Malmö',
-        // dep_time: '15:04',
-        // arr_time: '16:07',
-        //
-        // },
-        // {
-        // role: 'Driver',
-        // dep_loc: 'Göteborg',
-        // arr_loc: 'Stockholm',
-        // dep_time: '15:04',
-        // arr_time: '19:07',
-        //
-        // }];
 
+    var modal = [];
 
-        var modal = [];
-        // var modal = [
-        //     {
-        //     name: 'Anders',
-        //     role: 'Driver',
-        //     },
-        //     {
-        //     name: 'Kalle',
-        //     role: 'Passenger',
-        //     },
-        //     {
-        //     name: 'Bosse',
-        //     role: 'Passenger',
-        //     },
-        //     {
-        //     name: 'Pelle',
-        //     role: 'Passenger',
-        //     }
-        //   ];
 
     var view = {
         // Creates HTML for each foo in model
-        render: function() {
-            model.forEach(ride => view.renderRow(ride));
-            model.forEach(function(value, i){
-              view.modalModel(value, i);
-
-
-            });
-        },
-
-
-
-
+        // render: function() {
+        //   console.log(model);
+        //     model.forEach(ride => view.renderRow(ride));
+        //
+        //     model.forEach(function(value, i){
+        //       view.modalModel(value, i);
+        //     });
+        // },
 
         // Creates HTML for foo parameter and adds it to the parent of the template
 
     renderRow: function(ride) {
+      console.log("lol")
     var tbody = document.getElementById('remove-table');
     var elems = Object.values(ride);
     var tr = document.createElement("tr");
@@ -88,12 +43,12 @@ base.fooController = function() {
     tr.appendChild(td1);
 
     var td2 = document.createElement("td");
-    var txt = document.createTextNode(ride.departureLocation.name);
+    var txt = document.createTextNode(ride.departureLocation);
     td2.appendChild(txt);
     tr.appendChild(td2);
 
     var td3 = document.createElement("td");
-    var txt = document.createTextNode(ride.arrivalLocation.name);
+    var txt = document.createTextNode(ride.arrivalLocation);
     td3.appendChild(txt);
     tr.appendChild(td3);
 
@@ -135,16 +90,20 @@ base.fooController = function() {
 },
 
 modalModel: function(tableElems, index){
-    var elems = tableElems.allTravellers;
+    var elems = tableElems.allTravelers;
     var tbody = document.getElementById('modal-table');
-    var elems = Object.values(tableElems);
     var tr = document.createElement("tr");
 
     var td = document.createElement("td");
-    var txt = document.createTextNode(elems[i]);
+    var txt = document.createTextNode(elems[index]);
     td.appendChild(txt);
     tr.appendChild(td);
-    
+
+    var td1 = document.createElement("td");
+    var txt1 = document.createTextNode("test");
+    td1.appendChild(txt1);
+    tr.appendChild(td1);
+
     console.log(index);
 
     base.rest.getUser().then(function(user) {
@@ -153,7 +112,7 @@ modalModel: function(tableElems, index){
     }
     if(user.isAdmin()) {
       var lasttd = view.createModalBtn('Ban');
-    } else if(model[k].role === 'Driver') {
+    } else {
       var lasttd = view.createModalBtn('Kick');
     }
     tr.appendChild(lasttd);
@@ -244,31 +203,35 @@ createBtn: function (btnString) {
 
     var controller = {
         load: function() {
+
             base.rest.getUser().then(function(user) {
                 if(user.id === 1) {
                     base.rest.getRides().then(function(rides) {
                         model = rides;
+                        console.log(model);
+                        model.forEach(ride => view.renderRow(ride));
+                        model.forEach(function(value, i){
+                          view.modalModel(value, i);
+                        });
                         return model;
                     });
                 } else {
                     base.rest.getUserRides(user.id).then(function(rides) {
                         model = rides;
+                        console.log(model);
+                        model.forEach(ride => view.renderRow(ride));
+                        model.forEach(function(value, i){
+                          view.modalModel(value, i);
+                          console.log("hello");
+                        });
                         return model;
                     });
                 }
             });
-            // Adds callback to the form.
-            document.getElementById('foo-form').onsubmit = function(event) {
-                event.preventDefault();
-                controller.submitFoo();
-                return false;
-            };
+            //  view.render();
             // Loads all foos from the server through the REST API, see res.js for definition.
             // It will replace the model with the foos, and then render them through the view.
-            base.rest.getFoos().then(function(foos) {
-                //model = foos;
-                view.render();
-            });
+
         }
 
     };
