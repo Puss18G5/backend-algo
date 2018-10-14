@@ -9,8 +9,6 @@ import se.lth.base.server.database.DataAccess;
 import se.lth.base.server.database.Mapper;
 
 public class RidePersonDataAccess extends DataAccess<RidePerson>{
-	private final RideDataAccess rideDao = new RideDataAccess(Config.instance().getDatabaseDriver());
-
 	
 	private static class RidePersonMapper implements Mapper<RidePerson> {
 		@Override
@@ -27,26 +25,16 @@ public class RidePersonDataAccess extends DataAccess<RidePerson>{
 	/**
 	 * 
 	 * @param rideId
-	 * @return passenger list including driver
+	 * @return passenger list 
 	 */
 	public List<RidePerson> getPassengerList(int rideId){
-		List<RidePerson> passengers = query("SELECT * FROM ride_passengers WHERE ride_id = ?", rideId); 
-		Ride ride = rideDao.getRide(rideId);
-		passengers.add(new RidePerson(rideId, ride.getDriverId(), "Driver"));
-		
+		List<RidePerson> passengers = query("SELECT * FROM ride_passengers WHERE ride_id = ?", rideId); 		
 		return passengers;
 	}
 	
-	public List<RidePerson> getRides(int userId) {
+	public List<RidePerson> getRidesAsPassenger(int userId) {
 		List<RidePerson> rides = query("SELECT * FROM ride_passengers WHERE user_id = ?", userId); 
-		List<Ride> ridesAsDriver = rideDao.getRidesAsDriver(userId);
-		
-		for(int i = 0; i < ridesAsDriver.size(); i++) {
-			Ride ride = ridesAsDriver.get(i);
-			rides.add(new RidePerson(ride.getID(), ride.getDriverId(), "Driver" ));
-		}
-		return rides;
-		
+		return rides;		
 	}
 	
 	
