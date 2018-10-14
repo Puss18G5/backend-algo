@@ -42,7 +42,7 @@ public class RidePersonResource {
     @Path("{rideId}")
 	public List<RidePerson> getAllTravelers(@PathParam("rideId") int rideId) {
     	Ride ride = rideDao.getRide(rideId);
-    	List<RidePerson> ridesAsPassenger = getAllTravelers(rideId);
+    	List<RidePerson> ridesAsPassenger = ridePersonDao.getPassengerList(rideId);
     	ridesAsPassenger.add(new RidePerson(rideId, ride.getDriverId(), "Driver"));
 		return ridesAsPassenger;
 	}

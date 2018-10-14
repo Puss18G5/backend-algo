@@ -48,8 +48,9 @@ public class RideResource {
     }
     
     @GET
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")   
-    public List<Ride> getRides() {
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("user/{id}")
+    public List<Ride> getRides(@PathParam("id") int userId) {
     	return rideDao.getRides(user.getId());
     }
     
@@ -91,9 +92,9 @@ public class RideResource {
         }
     }
     
-    @Path("leave/{rideId}")
+    @Path("leave/{rideId}/{userId}")
     @DELETE
-    public void leaveRide(@PathParam("rideId") int rideId) {
-        rideDao.removeUserFromRide(rideId, user.getId());
+    public void leaveRide(@PathParam("rideId") int rideId, @PathParam ("userId") int userId) {
+        rideDao.removeUserFromRide(rideId, userId);
     }
 }

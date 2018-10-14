@@ -167,10 +167,10 @@ base.rest = (function() {
         deleteRide: function(rideId) {
             return baseFetch('/rest/ride/delete/'+rideId, {method: 'DELETE'});
         },
-        leaveRide: function(rideId) {
-            return baseFetch('/rest/ride/leave/'+rideId, {method: 'DELETE'});
+        leaveRide: function(rideId, userId) {
+            return baseFetch('/rest/ride/leave/'+rideId + '/' + userId, {method: 'DELETE'});
         },
-        getPassengers: function(rideId) {
+        getAllTravelers: function(rideId) {
             return baseFetch('rest/rideperson/' + rideId)
             .then(response => response.json()).then(rps => rps.map(rp => new RidePerson(rp)));
         },
