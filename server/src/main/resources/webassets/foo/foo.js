@@ -18,60 +18,79 @@ base.fooController = function() {
         // Creates HTML for each ride in model
         render: function() {
             model.forEach(ride => view.renderRow(ride));
-            modal.forEach(function(value, i){
-              view.modalModel(value, i);
-
-
-            });
         },
     renderRow: function(ride) {
     var tbody = document.getElementById('remove-table');
-    var elems = Object.values(ride);
     var tr = document.createElement("tr");
     tr.id="test";
 
-    for (var i = 0 ; i < elems.length; i++) {
-        var td = document.createElement("td");
-        var txt = document.createTextNode(elems[i]);
-        td.appendChild(txt);
-        tr.appendChild(td);
-    }
-    var isDriver = elems[0] === 'Driver';
+    var td1 = document.createElement("td");
+    var txt = document.createTextNode(ride.id);
+    td1.appendChild(txt);
+    tr.appendChild(td1);
 
-    if(isDriver) {
-      var lasttd = view.createBtn('Delete');
-    }
-     else {
-       var lasttd = view.createBtn('Leave');
-     }
+    var td2 = document.createElement("td");
+    var txt = document.createTextNode(ride.departureLocation);
+    td2.appendChild(txt);
+    tr.appendChild(td2);
+
+    var td3 = document.createElement("td");
+    var txt = document.createTextNode(ride.arrivalLocation);
+    td3.appendChild(txt);
+    tr.appendChild(td3);
+
+    var td4 = document.createElement("td");
+    var txt = document.createTextNode(ride.arrivalTime);
+    td4.appendChild(txt);
+    tr.appendChild(td4);
+
+    var td5 = document.createElement("td");
+    var txt = document.createTextNode(ride.departureTime);
+    td5.appendChild(txt);
+    tr.appendChild(td5);
+
+
+
+    //var isDriver = elems[0] === 'Driver';
+    base.rest.getUser().then(function (user){
+      if(/*isDriver ||*/ user.id === 1) {
+        var lasttd = view.createBtn('Delete', tr, ride);
+        tr.appendChild(lasttd);
+      }
+       else {
+         var lasttd = view.createBtn('Leave', tr, ride);
+         tr.appendChild(lasttd);
+       }
+    })
 
      var infoButton = view.createInfoBtn('More info');
 
-
-
-    tr.appendChild(lasttd);
     tr.appendChild(infoButton);
 
     tbody.appendChild(tr);
 
-    infoButton.onclick = function () {
-    //  $(".test").attr("data-toggle", "modal");
-      $("#userModal").modal()
-
-    }
+    // infoButton.onclick = function () {
+    // //  $(".test").attr("data-toggle", "modal");
+    //   $("#userModal").modal()
+    //
+    // }
 },
 modalModel: function(tableElems, index){
+    var elems = tableElems.allTravelers;
     var tbody = document.getElementById('modal-table');
-    var elems = Object.values(tableElems);
     var tr = document.createElement("tr");
 
-    for (var i = 0 ; i < elems.length; i++) {
-        var td = document.createElement("td");
-        var txt = document.createTextNode(elems[i]);
-        td.appendChild(txt);
-        tr.appendChild(td);
-    }
-      console.log(index);
+    var td = document.createElement("td");
+    var txt = document.createTextNode(elems[index]);
+    td.appendChild(txt);
+    tr.appendChild(td);
+
+    var td1 = document.createElement("td");
+    var txt1 = document.createTextNode(tableElems.id);
+    td1.appendChild(txt1);
+    tr.appendChild(td1);
+
+    console.log(index);
 
     base.rest.getUser().then(function(user) {
       for(var k = 0; k < index + 1; k++){
@@ -79,7 +98,7 @@ modalModel: function(tableElems, index){
     }
     if(user.isAdmin()) {
       var lasttd = view.createModalBtn('Ban');
-    } else if(model[k].role === 'Driver') {
+    } else {
       var lasttd = view.createModalBtn('Kick');
     }
     tr.appendChild(lasttd);
@@ -121,7 +140,7 @@ createInfoBtn: function () {
 
             return lasttd;
         },
-createBtn: function (btnString) {
+createBtn: function (btnString, tr, ride) {
         var secondlasttd = document.createElement("td");
         secondlasttd.id = 'last-td';
         var btn = document.createElement("button");
@@ -132,11 +151,23 @@ createBtn: function (btnString) {
 
         if(btnString === 'Delete') {
           btn.onclick = function(event) {
-              alert('Ride successfully deleted');
+            base.rest.deleteRide(ride.id).then(function(response) {
+                if(response.message === 'Ride not found') {
+                  alert("Ride does not exist");
+                } else {
+                  var tbody = document.getElementById("remove-table");
+                  tbody.removeChild(tr);
+                  alert('Ride successfully deleted');
+                }
+            });
           };
         } else {
           btn.onclick = function(event) {
-              alert('Left ride successfully');
+              base.rest.leaveRide(ride.id).then(function() {
+                var tbody = document.getElementById("remove-table");
+                tbody.removeChild(tr);
+                alert('Left ride successfully');
+              });
           };
         }
 
@@ -148,15 +179,27 @@ createBtn: function (btnString) {
 
     var controller = {
         load: function() {
+
             base.rest.getUser().then(function(user) {
                 if(user.id === 1) {
                     base.rest.getRides().then(function(rides) {
                         model = rides;
+                        console.log(model);
+                        model.forEach(ride => view.renderRow(ride));
+                        model.forEach(function(value, i){
+                          view.modalModel(value, i);
+                        });
                         return model;
                     });
                 } else {
                     base.rest.getUserRides(user.id).then(function(rides) {
                         model = rides;
+                        console.log(model);
+                        model.forEach(ride => view.renderRow(ride));
+                        model.forEach(function(value, i){
+                          view.modalModel(value, i);
+                          console.log("hello");
+                        });
                         return model;
                     });
                 }
