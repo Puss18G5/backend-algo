@@ -45,16 +45,16 @@ base.fooController = function() {
         var txt = document.createTextNode(ride.arrivalLocation);
         td3.appendChild(txt);
         tr.appendChild(td3);
+
+        var td5 = document.createElement("td");
+        var txt = document.createTextNode(ride.departureTime.substring(0,16));
+        td5.appendChild(txt);
+        tr.appendChild(td5);
     
         var td4 = document.createElement("td");
         var txt = document.createTextNode(ride.arrivalTime.substring(0,16));
         td4.appendChild(txt);
         tr.appendChild(td4);
-    
-        var td5 = document.createElement("td");
-        var txt = document.createTextNode(ride.departureTime.substring(0,16));
-        td5.appendChild(txt);
-        tr.appendChild(td5);
 
         if(user.id === ride.driverId || user.id === 1) {
             var lasttd = view.createBtn('Delete', tr, ride);
