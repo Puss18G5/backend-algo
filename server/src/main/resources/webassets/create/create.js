@@ -53,8 +53,12 @@ base.createRideController = function() {
                     alert('Arrival time needs to occur before the departure time');
                 } else {
                     base.rest.getUser().then(function(user) {
-                        base.rest.createRide(from, to, correct_dep_date + ':00', correct_arr_date + ':00', nbr_seats, user.id).then(function() {
-                            alert("Ride successfully created");
+                        base.rest.createRide(from, to, correct_dep_date + ':00', correct_arr_date + ':00', nbr_seats, user.id).then(function(response) {
+                            if(response.message === "User already has a ride during this time") {
+                                alert("You are already scheduled in this time interval, please enter a new interval");
+                            } else {
+                                alert("Ride successfully created");
+                            }
                         });
                     });
                 }
@@ -68,7 +72,7 @@ base.createRideController = function() {
             var toOkay = to.match(locationRegex);
     
             return isNaN(seats) || seats <= 0 || !fromOkay || !toOkay ||
-            arr_date.length > 16 || dep_date.length > 16
+            arr_date.length > 16 || dep_date.length > 16 || to === from;
         },
         getTodaysDate: function () {
             var today = new Date();

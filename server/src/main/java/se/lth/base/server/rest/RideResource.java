@@ -42,8 +42,9 @@ public class RideResource {
     }
     
     @GET
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")   
-    public List<Ride> getRides() {
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("user/{id}")
+    public List<Ride> getRides(@PathParam("id") int userId) {
     	return rideDao.getRides(user.getId());
     }
     
@@ -67,18 +68,17 @@ public class RideResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Path ("/{aLocation}/{dLocation}/{dTime}/{aTime}/{userId}")
+    @Path ("{aLocation}/{dLocation}/{dTime}/{aTime}")
     public List<Ride> searchRelevantRides(	@PathParam("aLocation") String arrivalLocation,
     										@PathParam("dLocation") String departureLocation,
     										@PathParam("dTime") String departureTime,
-    										@PathParam("aTime") String arrivalTime,
-    										@PathParam("userId") int userId) throws ParseException{
+    										@PathParam("aTime") String arrivalTime) throws ParseException{
     	
-    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime, userId);
+    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime, user.getId());
     }
     
     
-    @Path("{rideId}")
+    @Path("delete/{rideId}")
     @DELETE
     public void deleteRide(@PathParam("rideId") int rideId) {
         if (!rideDao.deleteRide(rideId)) {
@@ -86,10 +86,9 @@ public class RideResource {
         }
     }
     
-    @Path("{rideId}/{userId}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Path("leave/{rideId}/{userId}")
     @DELETE
-    public void leaveRide(@PathParam("rideID") int rideId, @PathParam("userID") int userId) {
+    public void leaveRide(@PathParam("rideId") int rideId, @PathParam ("userId") int userId) {
         rideDao.removeUserFromRide(rideId, userId);
     }
 }
