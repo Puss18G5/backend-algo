@@ -32,7 +32,10 @@ public class RideResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @PermitAll
-    public Ride createRide(Ride ride) throws URISyntaxException {
+    public Ride createRide(Ride ride) throws URISyntaxException, ParseException {
+    	if(rideDao.userIsBusy(ride, user.getId())) {
+    		throw new WebApplicationException("User already has a ride during this time", Response.Status.BAD_REQUEST);
+    	}
     	return rideDao.createRide(ride.getDepartureLocation(), ride.getArrivalLocation(), 
     			ride.getDepartureTime(), ride.getArrivalTime(), ride.getCarSize(), ride.getDriverId());
     }
