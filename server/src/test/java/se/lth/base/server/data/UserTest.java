@@ -11,9 +11,9 @@ import org.junit.Test;
 
 public class UserTest {
 
-	private User user = new User(1, Role.USER, "email", "name");
-	private User admin = new User(1, Role.ADMIN, "email", "name");
-	private User none = new User(1, Role.NONE, "email", "name");
+	private User user = new User(1, Role.USER, "name", "email");
+	private User admin = new User(2, Role.ADMIN, "name", "email");
+	private User none = new User(3, Role.NONE, "name", "email");
 	
 	
 	@Test
