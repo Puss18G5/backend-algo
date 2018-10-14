@@ -3,7 +3,6 @@ package se.lth.base.server.data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,8 +14,6 @@ import se.lth.base.server.database.Mapper;
 /**
  * Contains data access methods for rides
  * @author Sani Mesic
- * 
- * 
  */
 public class RideDataAccess extends DataAccess<Ride> {
 	private final RidePersonDataAccess ridePersonDao = new RidePersonDataAccess(Config.instance().getDatabaseDriver());

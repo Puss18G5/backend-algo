@@ -2,22 +2,16 @@ package se.lth.base.server.rest;
 
 import java.net.URISyntaxException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import se.lth.base.server.Config;
-import se.lth.base.server.data.LocationDataAccess;
 import se.lth.base.server.data.Ride;
 import se.lth.base.server.data.RideDataAccess;
-import se.lth.base.server.data.Role;
 import se.lth.base.server.data.User;
 
 @Path("ride")
