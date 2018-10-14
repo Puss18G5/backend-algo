@@ -55,6 +55,37 @@ public class RideDataAccess extends DataAccess<Ride> {
 		return new Ride(rideId, departureLocation, destination, departureTime, arrivalTime, nbrSeats, driverId);
 	}
 	
+	
+	/**
+	 * Method to check if user already created a ride that somehow collides with the times
+	 * of the given ride
+	 * If true, user is busy and should not be able to join the given ride
+	 * @param rideId
+	 * @param userId
+	 * @return
+	 * @throws ParseException
+	 */
+	public boolean userIsBusy(Ride ride, int userId) throws ParseException {
+		Date rideATime = ride.arrivalTimeAsDate();
+		Date rideDTime = ride.departureTimeAsDate();
+		
+		List<Ride> userRides = getRides(userId);
+		boolean isBusy = false;
+		for(Ride r : userRides) {
+			Date thisATime = r.arrivalTimeAsDate();
+			Date thisDTime = r.departureTimeAsDate();
+			//If-conditions from hell :)
+			if(rideDTime.before(thisDTime) && rideATime.after(thisDTime) && rideATime.before(thisATime) 
+					|| rideDTime.after(thisDTime) && rideATime.before(thisATime)
+					|| rideDTime.after(thisDTime) && rideDTime.before(thisATime) && rideATime.after(thisATime)
+					|| rideDTime.before(thisDTime) && rideATime.after(thisATime)) {
+				isBusy = true;
+			}
+		}
+		return isBusy;
+	}
+	
+	
 	/**
 	 * 
 	 * @return all rides currently in the system
@@ -111,7 +142,6 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 * @param rideId
 	 * @param userId
 	 * 
-	 * TODO Needs to check if user isn't already booked that time period
 	 * @throws ParseException 
 	 */
 	public Ride addUserToRide(int rideId, int userId) throws ParseException{
@@ -145,7 +175,7 @@ public class RideDataAccess extends DataAccess<Ride> {
 			Date thisATime = r.arrivalTimeAsDate();
 			Date thisDTime = r.departureTimeAsDate();
 			//If-conditions from hell :)
-			if(rideDTime.before(thisDTime) && rideATime.after(thisDTime) && rideATime.before(thisDTime) 
+			if(rideDTime.before(thisDTime) && rideATime.after(thisDTime) && rideATime.before(thisATime) 
 					|| rideDTime.after(thisDTime) && rideATime.before(thisATime)
 					|| rideDTime.after(thisDTime) && rideDTime.before(thisATime) && rideATime.after(thisATime)
 					|| rideDTime.before(thisDTime) && rideATime.after(thisATime)) {
