@@ -66,6 +66,7 @@ public class RideResource {
     	if(rideDao.userIsBusy(rideId, user.getId())) {
     		throw new WebApplicationException("User was busy during this time", Response.Status.BAD_REQUEST);
     	}
+
     	return rideDao.addUserToRide(rideId, user.getId());
     }
     

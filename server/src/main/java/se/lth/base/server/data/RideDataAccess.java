@@ -22,6 +22,7 @@ import se.lth.base.server.database.Mapper;
 public class RideDataAccess extends DataAccess<Ride> {
 
 	private final LocationDataAccess locationDao = new LocationDataAccess(Config.instance().getDatabaseDriver());
+	private final UserDataAccess userDao = new UserDataAccess(Config.instance().getDatabaseDriver());
 	
 	private static class RideMapper implements Mapper<Ride> {
 		@Override
@@ -135,6 +136,10 @@ public class RideDataAccess extends DataAccess<Ride> {
 		return ride.getCarSize() > 0;
 	}
 	
+	public List<Ride> getRidesAsDriver(int userId){
+		return query("SELECT * FROM rides WHERE driver_id = ?", userId);
+	}
+	
 	
 	/**
 	 * 
@@ -144,15 +149,20 @@ public class RideDataAccess extends DataAccess<Ride> {
 	 * 
 	 * @throws ParseException 
 	 */
+
 	public Ride addUserToRide(int rideId, int userId) throws ParseException{
 		//Checks if user is booked during that time period
 		 
 		// Decrements nbr_seats by 1
 		execute("UPDATE rides SET nbr_seats = nbr_seats - 1 WHERE ride_id = ?", rideId);
-				
 		// Inserts passenger to ride_passengers table
 		execute("INSERT INTO ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId);
-		return getRide(rideId);
+		
+		Ride ride = getRide(rideId);
+		User passenger = userDao.getUser(userId);
+		ride.addTraveler(passenger);
+		
+		return ride;
 	}
 
 	/**
@@ -200,7 +210,11 @@ public class RideDataAccess extends DataAccess<Ride> {
 		// Removes passenger to ride_passengers table
 		execute("DELETE FROM ride_passengers (ride_id, user_id) VALUES (?,?)", rideId, userId);
 		
-		return getRide(rideId);
+		Ride ride = getRide(rideId);
+		User passenger = userDao.getUser(userId);
+		ride.removeTraveler(passenger);
+		
+		return ride;
 	}
 	
 	/**
