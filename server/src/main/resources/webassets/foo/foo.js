@@ -13,41 +13,14 @@ base.fooController = function() {
 
     // List of all foo data, will be useful to have when update functionality is added.
     var model = [];
-<<<<<<< HEAD
-
-    var modal = [];
-
-
-    var view = {
-        // Creates HTML for each foo in model
-        // render: function() {
-        //   console.log(model);
-        //     model.forEach(ride => view.renderRow(ride));
-        //
-        //     model.forEach(function(value, i){
-        //       view.modalModel(value, i);
-        //     });
-        // },
-
-        // Creates HTML for foo parameter and adds it to the parent of the template
-
-=======
 
     var view = {
         // Creates HTML for each ride in model
         render: function() {
             model.forEach(ride => view.renderRow(ride));
-            modal.forEach(function(value, i){
-              view.modalModel(value, i);
-
-
-            });
         },
->>>>>>> f95128bd516f76e7e91daf998df594702803ad00
     renderRow: function(ride) {
-      console.log("lol")
     var tbody = document.getElementById('remove-table');
-    var elems = Object.values(ride);
     var tr = document.createElement("tr");
     tr.id="test";
 
@@ -78,29 +51,29 @@ base.fooController = function() {
 
 
 
-    var isDriver = elems[0] === 'Driver';
-
-    if(isDriver) {
-      var lasttd = view.createBtn('Delete');
-    }
-     else {
-       var lasttd = view.createBtn('Leave');
-     }
+    //var isDriver = elems[0] === 'Driver';
+    base.rest.getUser().then(function (user){
+      if(/*isDriver ||*/ user.id === 1) {
+        var lasttd = view.createBtn('Delete', tr, ride);
+        tr.appendChild(lasttd);
+      }
+       else {
+         var lasttd = view.createBtn('Leave', tr, ride);
+         tr.appendChild(lasttd);
+       }
+    })
 
      var infoButton = view.createInfoBtn('More info');
 
-
-
-    tr.appendChild(lasttd);
     tr.appendChild(infoButton);
 
     tbody.appendChild(tr);
 
-    infoButton.onclick = function () {
-    //  $(".test").attr("data-toggle", "modal");
-      $("#userModal").modal()
-
-    }
+    // infoButton.onclick = function () {
+    // //  $(".test").attr("data-toggle", "modal");
+    //   $("#userModal").modal()
+    //
+    // }
 },
 modalModel: function(tableElems, index){
     var elems = tableElems.allTravelers;
@@ -113,7 +86,7 @@ modalModel: function(tableElems, index){
     tr.appendChild(td);
 
     var td1 = document.createElement("td");
-    var txt1 = document.createTextNode("test");
+    var txt1 = document.createTextNode(tableElems.id);
     td1.appendChild(txt1);
     tr.appendChild(td1);
 
@@ -167,7 +140,7 @@ createInfoBtn: function () {
 
             return lasttd;
         },
-createBtn: function (btnString) {
+createBtn: function (btnString, tr, ride) {
         var secondlasttd = document.createElement("td");
         secondlasttd.id = 'last-td';
         var btn = document.createElement("button");
@@ -178,11 +151,23 @@ createBtn: function (btnString) {
 
         if(btnString === 'Delete') {
           btn.onclick = function(event) {
-              alert('Ride successfully deleted');
+            base.rest.deleteRide(ride.id).then(function(response) {
+                if(response.message === 'Ride not found') {
+                  alert("Ride does not exist");
+                } else {
+                  var tbody = document.getElementById("remove-table");
+                  tbody.removeChild(tr);
+                  alert('Ride successfully deleted');
+                }
+            });
           };
         } else {
           btn.onclick = function(event) {
-              alert('Left ride successfully');
+              base.rest.leaveRide(ride.id).then(function() {
+                var tbody = document.getElementById("remove-table");
+                tbody.removeChild(tr);
+                alert('Left ride successfully');
+              });
           };
         }
 
@@ -219,14 +204,7 @@ createBtn: function (btnString) {
                     });
                 }
             });
-<<<<<<< HEAD
-            //  view.render();
-            // Loads all foos from the server through the REST API, see res.js for definition.
-            // It will replace the model with the foos, and then render them through the view.
-
-=======
             view.render();
->>>>>>> f95128bd516f76e7e91daf998df594702803ad00
         }
 
     };
