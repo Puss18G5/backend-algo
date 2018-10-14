@@ -17,15 +17,6 @@ base.createRideController = function() {
                 var y = document.getElementById("create-to");
                 var from = x.options[x.selectedIndex].text;
                 var to = y.options[y.selectedIndex].text;
-                var from_loc = {};
-                var to_loc = {};
-
-                base.rest.getLocation(from).then(function(loc) {
-                    from_loc = loc;
-                });
-                base.rest.getLocation(to).then(function(loc) {
-                    to_loc = loc;
-                });
 
                 var arr_date_time = document.getElementById("create-arr-time").value;
                 var dep_date_time = document.getElementById("create-dep-time").value;
@@ -54,7 +45,6 @@ base.createRideController = function() {
 
                 // Call method that creates a ride in the database
                 // Check if any of the input values are invalid
-                // Add check for from and to not in location list
                 if(isIllegalInput){
                     alert('The information entered was not correct.');
                 } else if(isPassedDate){
@@ -63,7 +53,7 @@ base.createRideController = function() {
                     alert('Arrival time needs to occur before the departure time');
                 } else {
                     base.rest.getUser().then(function(user) {
-                        base.rest.createRide(from_loc, to_loc, correct_dep_date, correct_arr_date, nbr_seats, user.id).then(function() {
+                        base.rest.createRide(from, to, correct_dep_date + ':00', correct_arr_date + ':00', nbr_seats, user.id).then(function() {
                             alert("Ride successfully created");
                         });
                     });
@@ -111,17 +101,6 @@ base.createRideController = function() {
         },
         isPassedDate: function (dep_date, arr_date, today, hh, mm, dep_time) {
             return dep_date < today || arr_date < today || ((dep_date === today) && dep_time < (hh + ':' + mm));
-        },
-        isInLocations: function(input_location) {
-            var isInLocations = false;
-            base.rest.getLocations().then(function(locations) {
-                locations.forEach(function(location) {
-                    if(location.name === input_location) {
-                        isInLocations = true;
-                    }
-                });
-            });
-            return isInLocations;
         }
     };
     return controller;

@@ -94,6 +94,12 @@ public class DistanceRanker {
 		}
 	}
 
+	/**
+	 * Calculates distance between two points given the coordinates
+	 * @param locA
+	 * @param locB
+	 * @return
+	 */
 	private double calculateDistance(Location locA, Location locB) {
 
 		double lat1 = locA.getLatitude();
@@ -119,14 +125,14 @@ public class DistanceRanker {
 		DistTuple[] dt = new DistTuple[rideList.size()];
 		int i = 0;
 		for (Ride r : rideList) {
-			dt[i] = new DistTuple(r, calculateDistance(usersArrivalLocation, r.getArrivalLocation()));
+			dt[i] = new DistTuple(r, calculateDistance(usersArrivalLocation, r.getArrivalLocationAsLocation()));
 			i++;
 		}
 		return dt;
 	}
 
 	/*
-	 * Helper class to wrap one Ride and the distance between the users choosen destination location and the 
+	 * Helper class to wrap one Ride and the distance between the users chosen destination location and the 
 	 * registered Rides destination location to simplify the sorting process
 	 */
 	private class DistTuple {

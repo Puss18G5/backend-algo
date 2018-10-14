@@ -11,10 +11,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import se.lth.base.server.Config;
+import se.lth.base.server.data.LocationDataAccess;
 import se.lth.base.server.data.Ride;
 import se.lth.base.server.data.RideDataAccess;
+import se.lth.base.server.data.Role;
 import se.lth.base.server.data.User;
 
 @Path("ride")
@@ -48,15 +51,48 @@ public class RideResource {
     	return rideDao.getRides(userId);
     }
     
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @PermitAll
+    @Path("{rideId}")
+    public Ride joinRide(@PathParam("rideId") int rideId) throws ParseException {
+    	if(!rideDao.checkIfEmptySeats(rideId)) {
+    		throw new WebApplicationException("No empty seats on this ride", Response.Status.BAD_REQUEST);
+    	}
+    	if(rideDao.userIsBusy(rideId, user.getId())) {
+    		throw new WebApplicationException("User was busy during this time", Response.Status.BAD_REQUEST);
+    	}
+
+    	return rideDao.addUserToRide(rideId, user.getId());
+    }
+    
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Path ("/{aLocation}/{dLocation}/{dTime}/{aTime}")
+    @Path ("/{aLocation}/{dLocation}/{dTime}/{aTime}/{userId}")
     public List<Ride> searchRelevantRides(	@PathParam("aLocation") String arrivalLocation,
     										@PathParam("dLocation") String departureLocation,
     										@PathParam("dTime") String departureTime,
-    										@PathParam("aTime") String arrivalTime) throws ParseException{
-
-    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime);
+    										@PathParam("aTime") String arrivalTime,
+    										@PathParam("userId") int userId) throws ParseException{
+    	
+    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime, userId);
     }
     
+    
+    @Path("{rideId}")
+    @DELETE
+    public void deleteRide(@PathParam("rideId") int rideId) {
+        if (!rideDao.deleteRide(rideId)) {
+            throw new WebApplicationException("Ride not found", Response.Status.NOT_FOUND);
+        }
+    }
+    
+    @Path("{rideId}/{userId}")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @DELETE
+    public void leaveRide(@PathParam("rideID") int rideId, @PathParam("userID") int userId) {
+        rideDao.removeUserFromRide(rideId, userId);
+    }
 }

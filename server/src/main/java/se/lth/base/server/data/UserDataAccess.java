@@ -160,5 +160,5 @@ public class UserDataAccess extends DataAccess<User> {
     public boolean isUserNameUnique() {
     	return execute("SELECT username FROM users") < 1;
     }
-
+    
 }

@@ -2,8 +2,6 @@
 package Algorithm;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import se.lth.base.server.data.*;
@@ -11,13 +9,15 @@ import se.lth.base.server.data.*;
 public class Ranker {
 	private List<Ride> listOfRides;
 	private Ride userRide;
+	private int userId;
 
-	public Ranker(List<Ride> listOfRides, Ride userRide) {
+	public Ranker(List<Ride> listOfRides, Ride userRide, int userId) {
 		this.listOfRides = listOfRides;
 		this.userRide = userRide;
+		this.userId = userId;
 	}
 
-	/*
+	/**
 	 * Ranks the Rides first depending on the distance between the users desired
 	 * arrival location as specified in the userRide and the arrival location of the
 	 * Ride. Thereafter by how close in time users desired departure time matches
@@ -25,70 +25,44 @@ public class Ranker {
 	 */
 	public List<Ride> rank() throws ParseException {
 		List<Ride> temp = listOfRides;
-		return rankByTime(rankByDistance(temp));
+		return rankByTime(userRide, rankByDistance(temp));
 	}
 
-	// should be private?
-	public List<Ride> rankByTime(List<Ride> dRides) throws ParseException {
-		TimeRanker tr = new TimeRanker(dRides);
-		return tr.rank();
-
+	/**
+	 * 
+	 * @param dRides
+	 * @return
+	 * @throws ParseException
+	 */
+	private List<Ride> rankByTime(Ride uRide, List<Ride> dRides) throws ParseException {
+		TimeRanker tr = new TimeRanker(userRide.departureTimeAsDate(), dRides);
+		return removeRidesAlreadyJoined(tr.rank());
 	}
 
-	// should be private?
-	public List<Ride> rankByDistance(List<Ride> tRides) {
-		DistanceRanker dr = new DistanceRanker(userRide.getArrivalLocation(), tRides);
+	/**
+	 * Sorts out rides that the user has already joined. NOT CONFIRMED IF IT IS WORKING YET
+	 * @param listOfRides
+	 * @return
+	 */
+	private List<Ride> removeRidesAlreadyJoined(List<Ride> listOfRides) {
+		for(Ride r : listOfRides) {
+			List<User> listOfTravelers = r.getTravelerList();
+			for(User u : listOfTravelers) {
+				if(u.getId() == userId ) {
+					listOfRides.remove(r);
+				}
+			}
+		}
+		return listOfRides;
+	}
+	
+	/**
+	 * 
+	 * @param tRides
+	 * @return
+	 */
+	private List<Ride> rankByDistance(List<Ride> tRides) {
+		DistanceRanker dr = new DistanceRanker(userRide.getArrivalLocationAsLocation(), tRides);
 		return dr.rank();
-	}
-
-	/* For test purposes only, should be removed after phase 3 */
-	public static void main(String[] args) {
-//		Location userArrLoc = new Location("Göteborg", 57.708870, 11.974560);
-//
-//		Ride r1 = new Ride(2, new Location("Stockholm", (double) 59.329323, (double) 18.068581),
-//				new Location("Malmö", 55.604980, 13.003822), "2018/07/23 19:00:00", "2018/07/23 20:00:00", 4, 1);
-//		Ride r2 = new Ride(3, new Location("Stockholm", (double) 59.329323, (double) 18.068581),
-//				new Location("Märsta", 59.619842, 17.857571), "2018/08/23 19:00:00", "2018/08/23 20:00:00", 4, 2);
-//		Ride r3 = new Ride(4, new Location("Stockholm", (double) 59.329323, (double) 18.068581),
-//				new Location("Trollhättan", 58.291553, 12.286609), "2018/09/23 19:00:00", "2018/09/23 20:00:00", 4, 3);
-//		Ride r4 = new Ride(4, new Location("Stockholm", (double) 59.329323, (double) 18.068581),
-//				new Location("Kungälv", 57.872428, 11.975062), "2018/12/23 19:00:00", "2018/12/23 20:00:00", 4, 4);
-//
-//		ArrayList<Ride> rides = new ArrayList<Ride>();
-//		rides.add(r1);
-//		rides.add(r2);
-//		rides.add(r3);
-//		rides.add(r4);
-//
-//		DistanceRanker dr = new DistanceRanker(userArrLoc, rides);
-//		List<Ride> result = dr.rank();
-//		for (Ride r : result) {
-//			System.out.println(r.getArrivalLocation().getLocation());
-//		}
-		
-		//testing of timeranker
-//		Location userArrLoc = new Location("Göteborg", 57.708870, 11.974560);
-//
-//		Ride r1 = new Ride(2, new Location("Göteborg", 57.708870, 11.974560),
-//				new Location("Stockholm1", 59.329323, 18.068581), "2018-07-23 19:00:00", "2018-07-23 20:00:00", 4, 1);
-//		Ride r2 = new Ride(3, new Location("Göteborg", 57.708870, 11.974560),
-//				new Location("Malmö", 55.604980, 13.003822), "2018-08-23 19:00:00", "2018-08-23 20:00:00", 4, 2);
-//		Ride r3 = new Ride(4, new Location("Göteborg", 57.708870, 11.974560),
-//				new Location("Stockholm2", 59.329323, 18.068581), "2018-09-23 19:00:00", "2018-09-23 20:00:00", 4, 3);
-//		Ride r4 = new Ride(4, new Location("Göteborg", 57.708870, 11.974560),
-//				new Location("Stockholm3", 59.329323, 18.068581), "2018-12-23 19:00:00", "2018-12-23 20:00:00", 4, 4);
-//
-//		ArrayList<Ride> rides = new ArrayList<Ride>();
-//		rides.add(r1);
-//		rides.add(r2);
-//		rides.add(r3);
-//		rides.add(r4);
-//
-//		DistanceRanker dr = new DistanceRanker(userArrLoc, rides);
-//		List<Ride> result = dr.rank();
-//		for (Ride r : result) {
-//			System.out.println(r.getArrivalLocation().getLocation());
-//		}
-		
 	}
 }

@@ -141,4 +141,6 @@ public class UserResource {
             throw new WebApplicationException("User not found", Response.Status.NOT_FOUND);
         }
     }
+    
+    
 }

@@ -16,7 +16,7 @@ CREATE TABLE user_role(role_id TINYINT,
 CREATE TABLE users(user_id INT AUTO_INCREMENT NOT NULL,
                    role_id TINYINT,
                    username VARCHAR_IGNORECASE NOT NULL UNIQUE, -- username should be unique
-                   email VARCHAR NOT NULL, -- should be NOT NULL, change later
+                   email VARCHAR NOT NULL UNIQUE, -- should be NOT NULL, change later
                    salt BIGINT NOT NULL,
                    password_hash UUID NOT NULL,
                    failed_logins INT, -- counter for failed logins
@@ -43,8 +43,8 @@ CREATE TABLE rides (ride_id            INT AUTO_INCREMENT NOT NULL,
 CREATE TABLE ride_passengers (ride_id INT AUTO_INCREMENT NOT NULL,
                               user_id INT AUTO_INCREMENT NOT NULL,
                               PRIMARY KEY (ride_id, user_id),
-                              FOREIGN KEY (ride_id) REFERENCES rides (ride_id),
-                              FOREIGN KEY (user_id) REFERENCES users (user_id));
+                              FOREIGN KEY (ride_id) REFERENCES rides (ride_id) ON DELETE CASCADE,
+                              FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE);
 
 
 -- Sessions are indexed by large random numbers instead of a sequence of integers, because they could otherwise
@@ -60,8 +60,8 @@ INSERT INTO user_role(role_id, role)
 VALUES               (1, 'ADMIN'), (2, 'USER');
 
 INSERT INTO users(role_id, username, email, salt, password_hash)
-VALUES            (1, 'Admin', 'adminmail', -2883142073796788660, '8dc0e2ab-4bf1-7671-c0c4-d22ffb55ee59'),
-                  (2, 'Test', 'testmail', 5336889820313124494, '144141f3-c868-85e8-0243-805ca28cdabd');
+VALUES            (1, 'Admin', 'admin@admin.com', -2883142073796788660, '8dc0e2ab-4bf1-7671-c0c4-d22ffb55ee59'),
+                  (2, 'Test', 'test@test.com', 5336889820313124494, '144141f3-c868-85e8-0243-805ca28cdabd');
 
 INSERT INTO locations(location_name, latitude, longitude)
 VALUES               ('Stockholm', 59.329323, 18.068581),
@@ -121,9 +121,7 @@ VALUES           ('2018-01-01 12:00:00', '2018-01-01 15:00:00', 4, 1, 'Helsingbo
                  ('2018-01-03 12:00:00', '2018-01-01 13:00:00', 4, 1, 'Malmö', 'Helsingborg');
 
 INSERT INTO ride_passengers(ride_id, user_id)
-VALUES                      (1, 2),
-                            (2, 1),
-                            (3, 2);
+VALUES                      (2, 1);
 
 -- Example table containing some data per user, you are expected to remove this table in your project.
 CREATE TABLE foo(

@@ -1,28 +1,6 @@
 var base = base || {};
 base.joinRideController = function() {
-    var matchedRides = [
-        {
-        dep_loc: 'Malmö',
-        arr_loc: 'Lund',
-        dep_time: '2018-09-10 11:03',
-        arr_time: '2018-09-10 12:03',
-        seats: 4
-        },
-        {
-        dep_loc: 'Lund',
-        arr_loc: 'Malmö',
-        dep_time: '2018-09-10 15:04',
-        arr_time: '2018-09-10 16:07',
-        seats: 8
-        },
-        {
-        dep_loc: 'Göteborg',
-        arr_loc: 'Stockholm',
-        dep_time: '2018-09-10 15:04',
-        arr_time: '2018-09-10 19:07',
-        seats: 4
-        }
-    ];
+    var matchedRides = [];
 
     var view = {
         render: function () {
@@ -30,21 +8,39 @@ base.joinRideController = function() {
         },
         renderRow: function(ride) {
             var tbody = document.getElementById('join-table');
-            var elems = Object.values(ride);
             var tr = document.createElement("tr");
 
-            for (var i = 0 ; i < elems.length; i++) {
-                var td = document.createElement("td");
-                var txt = document.createTextNode(elems[i]);
-                td.appendChild(txt);
-                tr.appendChild(td);
-            }
+            var td1 = document.createElement("td");
+            var txt1 = document.createTextNode(ride.departureLocation);
+            td1.appendChild(txt1);
+            tr.appendChild(td1);
+
+            var td2 = document.createElement("td");
+            var txt2 = document.createTextNode(ride.arrivalLocation);
+            td2.appendChild(txt2);
+            tr.appendChild(td2);
+
+            var td3 = document.createElement("td");
+            var txt3 = document.createTextNode(ride.departureTime.substring(0,16));
+            td3.appendChild(txt3);
+            tr.appendChild(td3);
+
+            var td4 = document.createElement("td");
+            var txt4 = document.createTextNode(ride.arrivalTime.substring(0,16));
+            td4.appendChild(txt4);
+            tr.appendChild(td4);
+
+            var td5 = document.createElement("td");
+            var txt5 = document.createTextNode(ride.carSize);
+            td5.appendChild(txt5);
+            tr.appendChild(td5);
+
 
             var secondlasttd = view.createDropDown();
 
             tr.appendChild(secondlasttd);
 
-            var lasttd = view.createJoinBtn(elems);
+            var lasttd = view.createJoinBtn(ride);
 
             tr.appendChild(lasttd);
 
@@ -89,10 +85,9 @@ base.joinRideController = function() {
             lasttd.style.borderTop = 'none';
 
             btn.onclick = function(event) {
-                base.rest.getUser().then(function(user) {
                     // if(base.rest.isBusy(user.id, from, to) alert('You are already scheduled in tnis time interval')
                     // else joinRide(user.id, ride.id); alert('Ride successfully joined');
-                });
+                    base.rest.joinRide(ride.id);
                 alert('Ride successfully joined');
             };
 
@@ -116,7 +111,9 @@ base.joinRideController = function() {
 
             base.rest.getRides().then(function(rides){
                 console.log(rides);
-            })
+                matchedRides = rides;
+                return matchedRides;
+            });
 
             document.getElementById("search-rides").onclick = function (event){
             document.getElementById("matched-rides").style.visibility = "visible";

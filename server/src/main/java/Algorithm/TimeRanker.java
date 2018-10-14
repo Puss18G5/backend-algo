@@ -8,15 +8,17 @@ import java.util.List;
 import se.lth.base.server.data.Ride;
 
 public class TimeRanker {
+	private Date departureTime;
 	private List<Ride> rideAlternatives;
 
-	public TimeRanker(List<Ride> rideAlternatives) {
+	public TimeRanker(Date departureTime, List<Ride> rideAlternatives) {
+		this.departureTime = departureTime;
 		this.rideAlternatives = rideAlternatives;
 	}
 
 	/**/
 	public List<Ride> rank() throws ParseException {
-		Ride[] temp = sortableTimeList(rideAlternatives);
+		Ride[] temp = sortableTimeList();
 		sort(temp, 0, rideAlternatives.size() - 1);
 		List<Ride> result = new ArrayList<Ride>();
 
@@ -51,7 +53,7 @@ public class TimeRanker {
 		Ride L[] = new Ride[n1];
 		Ride R[] = new Ride[n2];
 
-		// Copy data to temp arrays 
+		// Copy data to temp arrays
 		for (int i = 0; i < n1; ++i)
 			L[i] = arr[l + i];
 		for (int j = 0; j < n2; ++j)
@@ -82,7 +84,7 @@ public class TimeRanker {
 			k++;
 		}
 
-		//Copy remaining elements of R[] if any */
+		// Copy remaining elements of R[] if any */
 		while (j < n2) {
 			arr[k] = R[j];
 			j++;
@@ -90,13 +92,26 @@ public class TimeRanker {
 		}
 	}
 
-	private Ride[] sortableTimeList(List<Ride> rideList) {
-		Ride[] rd = new Ride[rideList.size()];
+	/**
+	 * 
+	 * Removes all Rides that has a departure date before the departure date picked by the user, and inserts the rest
+	 * of the Rides into a list.
+	 * @param rideList
+	 * @throws ParseException
+	 */
+	private Ride[] sortableTimeList() throws ParseException {
+		for (Ride rd : rideAlternatives) {
+			if (rd.departureTimeAsDate().before(departureTime) || rd.departureTimeAsDate().equals(departureTime)) {
+				rideAlternatives.remove(rd);
+			}
+		}
+
+		Ride[] temp = new Ride[rideAlternatives.size()];
 		int i = 0;
-		for (Ride r : rideList) {
-			rd[i] = r;
+		for (Ride r : rideAlternatives) {
+			temp[i] = r;
 			i++;
 		}
-		return rd;
+		return temp;
 	}
 }
