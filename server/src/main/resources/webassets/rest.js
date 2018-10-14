@@ -182,6 +182,11 @@ base.rest = (function() {
             return baseFetch('/rest/user/' + userId)
                 .then(response => response.json())
                 .then(u => new User(u));
+        },
+        searchRelevantRides: function (aLocation, dLocation, dTime) {
+            return baseFetch('/rest/ride/' + aLocation + '/' + dLocation + '/' + dTime)
+                .then(response => response.json())
+                .then(rides =>rides.map(r => new Ride(r)));
         }
     };
 })();

@@ -112,28 +112,37 @@ base.joinRideController = function() {
                 });
             });
 
+
             base.rest.getRides().then(function(rides){
                 console.log(rides);
                 matchedRides = rides;
                 return matchedRides;
             });
 
-            base.rest.getPassengers(1).then(function(rp) {
-                console.log("Passengers before leave");
-                console.log(rp);
-            }).then(function() {
-                base.rest.leaveRide(1).then(function() {
-                    base.rest.getPassengers(1).then(function(rp) {
-                        console.log("Passengers after leave:");
-                        console.log(rp);
-                    })
-                })
-            });
-
             document.getElementById("search-rides").onclick = function (event){
-            document.getElementById("matched-rides").style.visibility = "visible";
-            view.render();
+                var from = select_from.options[select_from.selectedIndex].text;
+                var to = select_to.options[select_to.selectedIndex].text;
+                var dep_time = document.getElementById("join-dep-time").value;
+    
+                var dep_hrs_mins = controller.getTimeFromInput(dep_time);
+                var dep_date = controller.getDateFromInput(dep_time);
+    
+                var correct_dep_date = dep_date + ' ' + dep_hrs_mins;
+
+                // base.rest.searchRelevantRides(to, from, correct_dep_date).then(function() {
+                //     document.getElementById("matched-rides").style.visibility = "visible";
+                //     view.render();
+                // });
+
+                document.getElementById("matched-rides").style.visibility = "visible";
+                view.render();
             }
+        },
+        getDateFromInput: function (date_and_time) {
+            return date_and_time.substring(0,10);
+        },
+        getTimeFromInput: function (date_and_time) {
+            return date_and_time.substring(11,16);
         }
     };
     return controller;

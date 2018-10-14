@@ -70,7 +70,7 @@ public class RideResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Path ("/{aLocation}/{dLocation}/{dTime}/{aTime}/{userId}")
+    @Path ("{aLocation}/{dLocation}/{dTime}/{aTime}")
     public List<Ride> searchRelevantRides(	@PathParam("aLocation") String arrivalLocation,
     										@PathParam("dLocation") String departureLocation,
     										@PathParam("dTime") String departureTime,

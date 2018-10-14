@@ -162,12 +162,7 @@ createBtn: function (btnString) {
                     });
                 }
             });
-
-            base.rest.deleteRide(2).then(function() {
-                base.rest.getRides().then(function(rides) {
-                    console.log(rides);
-                })
-            })
+            
             view.render();
         }
 
