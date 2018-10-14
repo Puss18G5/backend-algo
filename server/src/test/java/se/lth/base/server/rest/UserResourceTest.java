@@ -190,18 +190,6 @@ public class UserResourceTest extends BaseResourceTest {
                 .delete(Void.class);
     }
 
-    @Test(expected = NotFoundException.class)
-    public void deleteTestUser() {
-        login(ADMIN_CREDENTIALS);
-        target("user")
-                .path(Integer.toString(TEST.getId()))
-                .request()
-                .delete(Void.class);
-        target("user")
-                .path(Integer.toString(TEST.getId()))
-                .request()
-                .get(User.class);
-    }
 
     @Test(expected = NotFoundException.class)
     public void deleteMissing() {

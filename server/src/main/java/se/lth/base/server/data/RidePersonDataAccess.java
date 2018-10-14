@@ -3,8 +3,6 @@ package se.lth.base.server.data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
-import se.lth.base.server.Config;
 import se.lth.base.server.database.DataAccess;
 import se.lth.base.server.database.Mapper;
 

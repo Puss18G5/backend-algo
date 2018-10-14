@@ -18,8 +18,8 @@ import java.util.Date;
 
 public class RideTest {
 
-	private Ride ride = new Ride(0, "Stockholm", "Malmö",
-			"2018/10/23 19:00:00", "2018/10/23 20:00:00", 3, 2);
+	private Ride ride = new Ride(1, "Stockholm", "Malmö",
+			"2018-10-23 19:00:00", "2018-10-23 20:00:00", 3, 2, "Undefined");
 	
 	@Test
 	public void getArrivalLocation() {
