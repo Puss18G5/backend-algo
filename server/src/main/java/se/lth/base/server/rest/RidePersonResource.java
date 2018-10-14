@@ -30,19 +30,34 @@ public class RidePersonResource {
 		this.user = (User) context.getProperty(User.class.getSimpleName());
 	}
 	
+	
+	/**
+	 * 
+	 * @param rideId
+	 * @return all travelers on a specified ride, both driver and passengers
+	 */
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @PermitAll
     @Path("{rideId}")
-	public List<RidePerson> getPassengers(@PathParam("rideId") int rideId) {
-		return ridePersonDao.getPassengerList(rideId);
+	public List<RidePerson> getAllTravelers(@PathParam("rideId") int rideId) {
+    	Ride ride = rideDao.getRide(rideId);
+    	List<RidePerson> ridesAsPassenger = getAllTravelers(rideId);
+    	ridesAsPassenger.add(new RidePerson(rideId, ride.getDriverId(), "Driver"));
+		return ridesAsPassenger;
 	}
     
+    
+    /**
+     * 
+     * @return all rides where the user is a passenger
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @PermitAll
-    @Path("all")
-    public List<RidePerson> getRides() {
-    	return ridePersonDao.getRides(user.getId());
+    public List<RidePerson> getRidesAsPassenger() {
+    	return ridePersonDao.getRidesAsPassenger(user.getId());
     }
+    
+    
 }

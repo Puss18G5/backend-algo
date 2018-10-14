@@ -48,11 +48,11 @@ public class RideResource {
     }
     
     @GET
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Path("user/{userId}")   
-    public List<Ride> getRides(@PathParam("userId") int userId) {
-    	return rideDao.getRides(userId);
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")   
+    public List<Ride> getRides() {
+    	return rideDao.getRides(user.getId());
     }
+    
     
     
     @POST

@@ -89,8 +89,13 @@ base.joinRideController = function() {
             btn.onclick = function(event) {
                     // if(base.rest.isBusy(user.id, from, to) alert('You are already scheduled in tnis time interval')
                     // else joinRide(user.id, ride.id); alert('Ride successfully joined');
-                    base.rest.joinRide(ride.id);
-                alert('Ride successfully joined');
+                    base.rest.joinRide(ride.id).then(function(response) {
+                        if(response.message === "User was busy during this time") {
+                            alert("You are already scheduled in the time interval of the ride selected, can not join ride");
+                        } else {
+                            alert('Ride successfully joined');
+                        }
+                    });
                 btn.disabled = true;
             };
 
