@@ -17,6 +17,7 @@ public class Ride {
 	private int carSize;
 	private int id;
 	private int driverId;
+	private String role;
 	private final LocationDataAccess locationDao = new LocationDataAccess(Config.instance().getDatabaseDriver());
 	
 	/**
@@ -30,7 +31,7 @@ public class Ride {
 	 * @param driverId
 	 */
 	public Ride(int rideId, String departureLocation, String arrivalLocation, 
-			String departureTime, String arrivalTime, int size, int driverId) {
+			String departureTime, String arrivalTime, int size, int driverId, String role) {
 		this.id = rideId;
 		this.arrivalLocation = arrivalLocation;
 		this.departureLocation = departureLocation;
@@ -39,6 +40,7 @@ public class Ride {
 		this.carSize = size;
 		this.allTravelers = new ArrayList<User>();
 		this.driverId = driverId;
+		this.role = role;
 	}
 	
 	/**
@@ -103,6 +105,14 @@ public class Ride {
 	
 	public int getID() {
 		return id;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+	
+	public void setRole(String newRole) {
+		this.role = newRole;
 	}
 	
 	public Date departureTimeAsDate() throws ParseException {

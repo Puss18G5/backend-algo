@@ -39,7 +39,9 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     	System.out.println(rideDao.checkIfEmptySeats(4));
     	
     	
-    	//rideDao.addUserToRide(4, 2);
+    	rideDao.addUserToRide(4, 2);
+    	
+    	
     	
     	/**
     	System.out.println(" ");
@@ -52,13 +54,13 @@ public class RideDataAccessTest extends BaseDataAccessTest {
     	}
     	*/
 		
-    	rides = rideDao.getAllRides();
-    	List<RidePerson> ridesp = ridePersonDao.getRides(2);
-    	System.out.println("testing " + ridesp.size());
+    	rides = rideDao.getRides(1);
+    	//List<RidePerson> ridesp = ridePersonDao.getRides(2);
+    	//System.out.println("testing " + ridesp.size());
     	
     	for (int i = 0; i < rides.size(); i++) {
     		Ride ride = rides.get(i);
-    		System.out.println(ride.getID() + " " + ride.getCarSize());
+    		System.out.println(ride.getID() + " " + ride.getRole());
     		//System.out.println(ride.getID() + ride.getDepartureLocation()+ ride.getArrivalLocation()+ ride.getDepartureTime() + ride.getArrivalTime() + ride.getCarSize() + ride.getDriverId());
     	}
 		
