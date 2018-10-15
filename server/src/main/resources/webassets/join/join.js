@@ -131,13 +131,14 @@ base.joinRideController = function() {
     
                 var correct_dep_date = dep_date + ' ' + dep_hrs_mins;
 
-                console.log(correct_dep_date);
-
                 base.rest.searchRelevantRides(to, from, correct_dep_date + ':00').then(function(rides) {
-                    console.log(rides);
                     document.getElementById("matched-rides").style.visibility = "visible";
                     matchedRides = rides;
-                    view.render();
+                    if(matchedRides.length < 1) {
+                        alert("No rides found. Try again.")
+                    } else {
+                        view.render();
+                    }
                 });
             }
         },
