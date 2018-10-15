@@ -32,7 +32,7 @@ base.createRideController = function() {
                 var correct_dep_date = dep_date + ' ' + dep_hrs_mins;
                 var correct_arr_date = arr_date + ' ' + arr_hrs_mins;
 
-                // controller.clearInputFields();
+                controller.clearInputFields();
 
                 var isIllegalInput = controller.isIncorrectInformation(nbr_seats, to, from, arr_date_time, dep_date_time);
                 var hh = new Date().getHours();
