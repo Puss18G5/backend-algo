@@ -68,13 +68,12 @@ public class RideResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Path ("{aLocation}/{dLocation}/{dTime}/{aTime}")
+    @Path ("{aLocation}/{dLocation}/{dTime}")
     public List<Ride> searchRelevantRides(	@PathParam("aLocation") String arrivalLocation,
     										@PathParam("dLocation") String departureLocation,
-    										@PathParam("dTime") String departureTime,
-    										@PathParam("aTime") String arrivalTime) throws ParseException{
+    										@PathParam("dTime") String departureTime) throws ParseException{
     	
-    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, arrivalTime, departureTime, user.getId());
+    	return rideDao.getRelevantRides(arrivalLocation, departureLocation, "0000-00-00 00:00", departureTime, user.getId());
     }
     
     

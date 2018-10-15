@@ -116,11 +116,10 @@ base.joinRideController = function() {
                 });
             });
 
-
-            base.rest.getRides().then(function(rides){
-                matchedRides = rides;
-                return matchedRides;
-            });
+            // base.rest.getRides().then(function(rides){
+            //     matchedRides = rides;
+            //     return matchedRides;
+            // });
 
             document.getElementById("search-rides").onclick = function (event){
                 var from = select_from.options[select_from.selectedIndex].text;
@@ -132,13 +131,14 @@ base.joinRideController = function() {
     
                 var correct_dep_date = dep_date + ' ' + dep_hrs_mins;
 
-                // base.rest.searchRelevantRides(to, from, correct_dep_date).then(function() {
-                //     document.getElementById("matched-rides").style.visibility = "visible";
-                //     view.render();
-                // });
+                console.log(correct_dep_date);
 
-                document.getElementById("matched-rides").style.visibility = "visible";
-                view.render();
+                base.rest.searchRelevantRides(to, from, correct_dep_date + ':00').then(function(rides) {
+                    console.log(rides);
+                    document.getElementById("matched-rides").style.visibility = "visible";
+                    matchedRides = rides;
+                    view.render();
+                });
             }
         },
         getDateFromInput: function (date_and_time) {
