@@ -18,31 +18,45 @@ public class Ranker {
 	}
 
 	/**
-	 * Ranks the Rides first depending on the distance between the users desired
-	 * arrival location as specified in the userRide and the arrival location of the
-	 * Ride. Thereafter by how close in time users desired departure time matches
-	 * the Rides departure time.
+	 * 
+	 * Ranks the Rides first depending on how close in time users desired departure time matches
+	 * the Rides departure time. Thereafter by the distance between the users desired
+	 * arrival location as specified in the userRide, and the arrival location of the
+	 * Ride.
+	 * Rides that the user has joined from before will be removed from the set of Rides.
+	 * 
+	 * @return List<Ride>
 	 */
 	public List<Ride> rank() throws ParseException {
 		List<Ride> temp = listOfRides;
-		return rankByTime(userRide, rankByDistance(temp));
+		return removeRidesAlreadyJoined(rankByDistance(rankByTime(userRide, temp)));
+	}
+	
+	/**
+	 * 
+	 * @param tRides
+	 * @return List<Ride>
+	 */
+	private List<Ride> rankByDistance(List<Ride> tRides) {
+		DistanceRanker dr = new DistanceRanker(userRide.getArrivalLocationAsLocation(), tRides);
+		return dr.rank();
 	}
 
 	/**
 	 * 
 	 * @param dRides
-	 * @return
+	 * @return List<Ride>
 	 * @throws ParseException
 	 */
 	private List<Ride> rankByTime(Ride uRide, List<Ride> dRides) throws ParseException {
 		TimeRanker tr = new TimeRanker(userRide.departureTimeAsDate(), dRides);
-		return removeRidesAlreadyJoined(tr.rank());
+		return tr.rank();
 	}
 
 	/**
 	 * Sorts out rides that the user has already joined. NOT CONFIRMED IF IT IS WORKING YET
+	 * 
 	 * @param listOfRides
-	 * @return
 	 */
 	private List<Ride> removeRidesAlreadyJoined(List<Ride> listOfRides) {
 		for(Ride r : listOfRides) {
@@ -55,14 +69,5 @@ public class Ranker {
 		}
 		return listOfRides;
 	}
-	
-	/**
-	 * 
-	 * @param tRides
-	 * @return
-	 */
-	private List<Ride> rankByDistance(List<Ride> tRides) {
-		DistanceRanker dr = new DistanceRanker(userRide.getArrivalLocationAsLocation(), tRides);
-		return dr.rank();
-	}
 }
+
