@@ -25,7 +25,7 @@
                 <label class="col-md-2 col-form-label" for="set-username">Username</label>
                 <div class="col-md-10">
                     <input type="text" class="form-control" id="set-username" placeholder="Enter username"
-                           pattern="[0-9a-zA-ZåäöÅÄÖ]{3,20}">
+                           pattern="[0-9a-zA-Z]{3,20}">
                     <small id="edit-username-help" class="form-text text-muted">Minimum 3 characters.
                     </small>
                 </div>
@@ -33,7 +33,7 @@
             <div class="form-group row">
                 <label class="col-md-2 col-form-label" for="set-email">Email</label>
                 <div class="col-md-10">
-                    <input type="email" class="form-control" id="set-email" placeholder="Enter email" pattern="[a-z0-9åäö._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                    <input type="email" class="form-control" id="set-email" placeholder="Enter email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}">
                     <small id="edit-email-help" class="form-text text-muted">Minimum 5 characters.
                     </small>
                 </div>
@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col">
                             <input type="password" class="form-control" id="set-password" placeholder="Password"
-                            pattern="[A-Za-zåäöÅÄÖ0-9\s!@#$%^&*()_+=-`~\\\]\[{}|';:/.,?>]{8,20}">
+                            pattern="[A-Za-z0-9\s!@#$%^&*()_+=-`~\\\]\[{}|';:/.,?>]{8,20}">
                             <small id="edit-password-help" class="form-text text-muted">Minimum 8 characters.
                             </small>
                         </div>
